@@ -13,4 +13,7 @@ Skeleton of participants module
 
 - Herminio García González (@herminiogg)
 - Jose Emilio Labra Gayo (@labra)
-
+- Jorge Rodríguez Fernández (@JorRoFe)
+- Adrián García Lumbreras (@AdrianGLumbreras)
+- Iván González Mahagamage (@igm1990)
+- Raúl Gómez Pérez (@RaulG89)
