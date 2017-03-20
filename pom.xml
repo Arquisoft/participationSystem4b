@@ -303,6 +303,16 @@
 			<timezone>2</timezone>
 			<properties />
 		</developer>
+		<developer>
+			<id>JorRoFe</id>
+			<name>Jorge Rodríguez Fernández</name>
+			<email>uo237492@uniovi.es</email>
+			<roles>
+				<role>Developer</role>
+			</roles>
+			<timezone>2</timezone>
+			<properties />
+		</developer>
 	</developers>
 
 	<organization>
