@@ -321,6 +321,16 @@
 			<timezone>2</timezone>
 			<properties />
 		</developer>
+		<developer>
+			<id>AdrianGLumbreras</id>
+			<name>Adrián García Lumbreras</name>
+			<email>uo240002@uniovi.es</email>
+			<roles>
+				<role>Developer</role>
+			</roles>
+			<timezone>2</timezone>
+			<properties />
+		</developer>
 	</developers>
 
 	<organization>
