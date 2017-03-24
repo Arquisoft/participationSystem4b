@@ -10,8 +10,8 @@ import java.util.List;
 
 @Service
 public class CitizenServiceImpl implements CitizenService {
-@Autowired
-CitizenRepository citizenRepository;
+	@Autowired
+	private CitizenRepository citizenRepository;
 
 	@Override
 	public List<Citizen> findAll() {

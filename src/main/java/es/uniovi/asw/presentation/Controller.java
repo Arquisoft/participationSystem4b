@@ -1,7 +1,6 @@
 package es.uniovi.asw.presentation;
 
 import es.uniovi.asw.business.CitizenService;
-import es.uniovi.asw.conf.Factories;
 import es.uniovi.asw.model.Citizen;
 import es.uniovi.asw.model.exception.CitizenException;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,8 +1,5 @@
 package hello;
 
-import static org.hamcrest.Matchers.containsString;
-import static org.junit.Assert.assertThat;
-
 import java.net.URL;
 
 import org.junit.Before;
@@ -17,6 +14,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.web.client.RestTemplate;
 
+@SuppressWarnings("deprecation")
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringApplicationConfiguration(classes = Application.class)
 @WebAppConfiguration
@@ -43,8 +41,9 @@ public class MainControllerTest {
 //		assertThat(response.getBody(), containsString("Hola"));
 //	}
 
+	@SuppressWarnings("unused")
 	@Test
-	public void getUser() throws Exception {
+	public void getUserTest() throws Exception {
 		String userURI = base.toString() + "/user";
 		ResponseEntity<String> response = template.getForEntity(userURI,
 				String.class);
