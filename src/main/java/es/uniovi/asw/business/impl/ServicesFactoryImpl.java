@@ -2,7 +2,6 @@ package es.uniovi.asw.business.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import es.uniovi.asw.business.CitizenService;
 import es.uniovi.asw.business.ComentarioService;
 import es.uniovi.asw.business.PropuestaService;
@@ -34,5 +33,4 @@ public class ServicesFactoryImpl implements ServicesFactory {
 	public ComentarioService getComentarioService() {
 		return comentarioService;
 	}
-
 }

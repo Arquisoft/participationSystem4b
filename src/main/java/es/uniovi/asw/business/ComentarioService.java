@@ -12,5 +12,5 @@ public interface ComentarioService {
 
 	public Comentario findByCitizen(String dni);
 
-	public void save(Comentario comentario);
+	public void save(int idCitizen, int idPropuesta, String mensaje);
 }

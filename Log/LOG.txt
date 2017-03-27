@@ -84,3 +84,6 @@
 (Mon Mar 27 12:59:58 CEST 2017) -> La fecha de nacimiento es posterior al dia actual.
 (Mon Mar 27 13:00:34 CEST 2017) -> La fecha de nacimiento es posterior al dia actual.
 (Mon Mar 27 13:03:40 CEST 2017) -> detached entity passed to persist: es.uniovi.asw.model.Citizen; nested exception is org.hibernate.PersistentObjectException: detached entity passed to persist: es.uniovi.asw.model.Citizen
+(Mon Mar 27 15:17:08 CEST 2017) -> detached entity passed to persist: es.uniovi.asw.model.Citizen; nested exception is org.hibernate.PersistentObjectException: detached entity passed to persist: es.uniovi.asw.model.Citizen
+(Mon Mar 27 15:26:10 CEST 2017) -> detached entity passed to persist: es.uniovi.asw.model.Citizen; nested exception is org.hibernate.PersistentObjectException: detached entity passed to persist: es.uniovi.asw.model.Citizen
+(Mon Mar 27 15:43:24 CEST 2017) -> detached entity passed to persist: es.uniovi.asw.model.Citizen; nested exception is org.hibernate.PersistentObjectException: detached entity passed to persist: es.uniovi.asw.model.Citizen

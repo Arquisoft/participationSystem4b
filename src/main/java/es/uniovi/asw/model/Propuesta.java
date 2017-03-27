@@ -19,7 +19,7 @@ public class Propuesta {
 	@NotNull
 	private String contenido;
 
-	@OneToMany(mappedBy = "propuesta", cascade = CascadeType.MERGE, fetch = FetchType.EAGER, orphanRemoval = true)
+	@OneToMany(mappedBy = "propuesta", fetch = FetchType.EAGER)
 	private Set<Comentario> comentarios = new HashSet<Comentario>();
 
 	@NotNull
