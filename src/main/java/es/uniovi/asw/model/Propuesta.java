@@ -1,19 +1,40 @@
 package es.uniovi.asw.model;
 
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
+import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+
+@Entity
+@Table(name = "TPROPUESTA")
 public class Propuesta {
-
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	private long id;
+
+	@NotNull
 	private String nombre;
+
+	@NotNull
 	private String contenido;
-	private List<Comentario> comentarios;
+
+	@OneToMany(mappedBy = "propuesta", fetch = FetchType.EAGER)
+	private Set<Comentario> comentarios = new HashSet<Comentario>();
+
+	@NotNull
 	private int valoracion;
+
+	@NotNull
 	private int votosMinimos;
+
+	@Enumerated(EnumType.STRING)
 	private EstadosPropuesta estado;
 
+	public Propuesta() {
+	}
+
 	public Propuesta(String nombre, String contenido, int votosMinimos) {
-		super();
 		this.nombre = nombre;
 		this.contenido = contenido;
 		this.votosMinimos = votosMinimos;
@@ -61,11 +82,11 @@ public class Propuesta {
 		this.contenido = contenido;
 	}
 
-	public List<Comentario> getComentarios() {
+	public Set<Comentario> _getComentarios() {
 		return comentarios;
 	}
 
-	public void setComentarios(List<Comentario> comentarios) {
+	public void setComentarios(Set<Comentario> comentarios) {
 		this.comentarios = comentarios;
 	}
 
@@ -99,8 +120,8 @@ public class Propuesta {
 
 	@Override
 	public String toString() {
-		String cadena = "La propuesta: '" + nombre + "' tiene un total de " + valoracion + " votos y " + comentarios
-				+ " comentarios.\n";
+		String cadena = "La propuesta: '" + nombre + "' tiene un total de "
+				+ valoracion + " votos y " + comentarios + " comentarios.\n";
 		if (comentarios.size() > 0) {
 			for (Comentario comentario : comentarios) {
 				cadena += "\t" + comentario.getContenido() + ".\n";
@@ -109,4 +130,27 @@ public class Propuesta {
 
 		return cadena;
 	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + (int) (id ^ (id >>> 32));
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Propuesta other = (Propuesta) obj;
+		if (id != other.id)
+			return false;
+		return true;
+	}
+
 }

@@ -25,6 +25,6 @@ public class CitizenServiceImpl implements CitizenService {
 
 	@Override
 	public Citizen findByDni(String dni) {
-		return citizenRepository.findById(dni);
+		return citizenRepository.findByDni(dni);
 	}
 }
