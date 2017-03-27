@@ -45,6 +45,8 @@ public class Citizen {
 	@NotNull
 	private String password;
 
+	private boolean isAdmin;
+
 	private Calendar calendar = GregorianCalendar.getInstance();
 
 	@OneToMany(mappedBy = "citizen", fetch = FetchType.EAGER)
@@ -64,6 +66,7 @@ public class Citizen {
 		this.nacionalidad = nacionalidad;
 		this.dni = dni;
 		this.password = generarPassword();
+		this.isAdmin = false;
 	}
 
 	public long getId() {
@@ -147,13 +150,13 @@ public class Citizen {
 		return password;
 	}
 
-	public void setPassword(String password)
-			throws NoSuchAlgorithmException, CitizenException {
+	public void setPassword(String password) throws NoSuchAlgorithmException,
+			CitizenException {
 		this.password = new EncryptMD5().encrypting(password);
 	}
 
-	private String generarPassword()
-			throws NoSuchAlgorithmException, CitizenException {
+	private String generarPassword() throws NoSuchAlgorithmException,
+			CitizenException {
 		String password = "";
 		Random r = new Random(calendar.getTimeInMillis());
 		int i = 0;
@@ -176,6 +179,14 @@ public class Citizen {
 
 	public void setComentarios(Set<Comentario> comentarios) {
 		this.comentarios = comentarios;
+	}
+
+	public boolean isAdmin() {
+		return isAdmin;
+	}
+
+	public void setAdmin(boolean isAdmin) {
+		this.isAdmin = isAdmin;
 	}
 
 	@Override
