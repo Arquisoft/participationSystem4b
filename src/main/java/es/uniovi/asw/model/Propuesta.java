@@ -19,7 +19,7 @@ public class Propuesta {
 	@NotNull
 	private String contenido;
 
-	@OneToMany(mappedBy = "propuesta", fetch = FetchType.EAGER)
+	@OneToMany(mappedBy = "propuesta", cascade = CascadeType.MERGE, fetch = FetchType.EAGER, orphanRemoval = true)
 	private Set<Comentario> comentarios = new HashSet<Comentario>();
 
 	@NotNull
@@ -82,7 +82,7 @@ public class Propuesta {
 		this.contenido = contenido;
 	}
 
-	public Set<Comentario> _getComentarios() {
+	Set<Comentario> _getComentarios() {
 		return comentarios;
 	}
 
@@ -104,6 +104,10 @@ public class Propuesta {
 
 	public long getId() {
 		return id;
+	}
+
+	void _setId(long id) {
+		this.id = id;
 	}
 
 	public void votoPositivo() {

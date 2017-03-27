@@ -47,7 +47,7 @@ public class Citizen {
 
 	private Calendar calendar = GregorianCalendar.getInstance();
 
-	@OneToMany(mappedBy = "citizen", cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
+	@OneToMany(mappedBy = "citizen", fetch = FetchType.EAGER)
 	private Set<Comentario> comentarios = new HashSet<Comentario>();
 
 	Citizen() {

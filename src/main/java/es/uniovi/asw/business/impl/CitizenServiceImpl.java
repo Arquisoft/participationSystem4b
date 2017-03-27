@@ -27,4 +27,10 @@ public class CitizenServiceImpl implements CitizenService {
 	public Citizen findByDni(String dni) {
 		return citizenRepository.findByDni(dni);
 	}
+
+	@Override
+	public void save(Citizen citizen) {
+		citizenRepository.save(citizen);
+
+	}
 }

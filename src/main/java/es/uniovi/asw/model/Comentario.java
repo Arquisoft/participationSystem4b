@@ -1,5 +1,9 @@
 package es.uniovi.asw.model;
 
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
@@ -11,13 +15,14 @@ import es.uniovi.asw.model.types.keys.ComentarioKey;
 public class Comentario {
 	@Id
 	@ManyToOne
-	@JoinColumn(name = "CITIZEN_ID", referencedColumnName = "ID")
 	private Citizen citizen;
 
 	@Id
 	@ManyToOne
-	@JoinColumn(name = "PROPUESTA_ID", referencedColumnName = "ID")
 	private Propuesta propuesta;
+
+	@Temporal(TemporalType.DATE)
+	private Date fechaCreacion;
 
 	@NotNull
 	private int valoracion;
@@ -33,6 +38,8 @@ public class Comentario {
 
 	public Comentario(Citizen citizen, Propuesta propuesta, String contenido) {
 		Association.Comenta.link(citizen, this, propuesta);
+		Calendar calendar = GregorianCalendar.getInstance();
+		this.fechaCreacion = new Date(calendar.getTimeInMillis());
 		this.contenido = contenido;
 		this.valoracion = 0;
 		this.estado = EstadosComentario.Correcto;
@@ -51,6 +58,10 @@ public class Comentario {
 		return valoracion;
 	}
 
+	public void setValoracion(int valoracion) {
+		this.valoracion = valoracion;
+	}
+
 	public EstadosComentario getEstado() {
 		return estado;
 	}
@@ -67,7 +78,7 @@ public class Comentario {
 		return propuesta;
 	}
 
-	public void _setPropuesta(Propuesta propuesta) {
+	void _setPropuesta(Propuesta propuesta) {
 		this.propuesta = propuesta;
 	}
 
@@ -75,19 +86,24 @@ public class Comentario {
 		return citizen;
 	}
 
-	public void _setCitizen(Citizen citizen) {
+	void _setCitizen(Citizen citizen) {
 		this.citizen = citizen;
 	}
 
-	public void setValoracion(int valoracion) {
-		this.valoracion = valoracion;
+	public Date getFechaCreacion() {
+		return fechaCreacion;
+	}
+
+	void _setFechaCreacion(Date fechaCreacion) {
+		this.fechaCreacion = fechaCreacion;
 	}
 
 	@Override
 	public String toString() {
 		return "Comentario [citizen=" + citizen + ", propuesta=" + propuesta
-				+ ", valoracion=" + valoracion + ", contenido=" + contenido
-				+ ", estado=" + estado + "]";
+				+ ", fechaCreacion=" + fechaCreacion + ", valoracion="
+				+ valoracion + ", contenido=" + contenido + ", estado=" + estado
+				+ "]";
 	}
 
 	@Override
@@ -95,6 +111,8 @@ public class Comentario {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((citizen == null) ? 0 : citizen.hashCode());
+		result = prime * result
+				+ ((fechaCreacion == null) ? 0 : fechaCreacion.hashCode());
 		result = prime * result
 				+ ((propuesta == null) ? 0 : propuesta.hashCode());
 		return result;
@@ -113,6 +131,11 @@ public class Comentario {
 			if (other.citizen != null)
 				return false;
 		} else if (!citizen.equals(other.citizen))
+			return false;
+		if (fechaCreacion == null) {
+			if (other.fechaCreacion != null)
+				return false;
+		} else if (!fechaCreacion.equals(other.fechaCreacion))
 			return false;
 		if (propuesta == null) {
 			if (other.propuesta != null)

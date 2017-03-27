@@ -10,5 +10,7 @@ public interface CitizenService {
 
 	public Citizen findById(long id);
 
-    public Citizen findByDni(String dni);
+	public Citizen findByDni(String dni);
+
+	public void save(Citizen citizen);
 }
