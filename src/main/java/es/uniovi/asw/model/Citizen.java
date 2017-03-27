@@ -73,13 +73,6 @@ public class Citizen {
 		return id;
 	}
 
-	void setId(long id) throws CitizenException {
-		if (id > 0)
-			this.id = id;
-		else
-			throw new CitizenException("El ID es menor que 0");
-	}
-
 	public String getNombre() {
 		return nombre;
 	}

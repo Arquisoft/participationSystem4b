@@ -31,6 +31,5 @@ public class CitizenServiceImpl implements CitizenService {
 	@Override
 	public void save(Citizen citizen) {
 		citizenRepository.save(citizen);
-
 	}
 }

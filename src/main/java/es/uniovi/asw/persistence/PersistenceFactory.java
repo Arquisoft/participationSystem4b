@@ -2,9 +2,9 @@ package es.uniovi.asw.persistence;
 
 public interface PersistenceFactory {
 
-	CitizenRepository newCitizenRepository();
+	public CitizenRepository newCitizenRepository();
 
-	PropuestaRepository newPropuestaRepository();
+	public PropuestaRepository newPropuestaRepository();
 
-	ComentarioRepository newComentarioRepository();
+	public ComentarioRepository newComentarioRepository();
 }
