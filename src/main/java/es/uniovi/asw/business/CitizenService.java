@@ -13,4 +13,6 @@ public interface CitizenService {
 	public Citizen findByDni(String dni);
 
 	public void save(Citizen citizen);
+	
+	public Citizen findLoggableUser(String dni, String password);
 }

@@ -11,4 +11,7 @@ public interface CitizenRepository extends JpaRepository<Citizen, Long> {
 
 	@Query("Select a from Citizen a where a.dni=?1")
 	Citizen findByDni(String dni);
+
+	@Query("Select a from Citizen a where a.dni=?1 and a.password=?2")
+	Citizen findLoggableUser(String dni, String password);
 }

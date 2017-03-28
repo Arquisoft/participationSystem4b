@@ -32,4 +32,9 @@ public class CitizenServiceImpl implements CitizenService {
 	public void save(Citizen citizen) {
 		citizenRepository.save(citizen);
 	}
+	
+	@Override
+	public Citizen findLoggableUser(String name, String password) {
+		return citizenRepository.findLoggableUser(name, password);
+	}
 }
