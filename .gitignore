@@ -3,6 +3,9 @@
 .metadata
 bin/
 tmp/
+Log/
+Letter/
+
 *.tmp
 *.bak
 *.swp
@@ -55,6 +58,3 @@ local.properties
 
 *.iml
 .idea
-
-/Log
-/Letter
