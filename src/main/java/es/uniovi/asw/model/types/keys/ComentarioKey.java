@@ -4,19 +4,19 @@ import java.io.Serializable;
 
 public class ComentarioKey implements Serializable {
 	private static final long serialVersionUID = 1L;
+	private Long id;
 	private Long citizen;
 	private Long propuesta;
 
-	ComentarioKey() {
-	}
+	ComentarioKey() { }
 
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((citizen == null) ? 0 : citizen.hashCode());
-		result = prime * result
-				+ ((propuesta == null) ? 0 : propuesta.hashCode());
+		result = prime * result + ((id == null) ? 0 : id.hashCode());
+		result = prime * result + ((propuesta == null) ? 0 : propuesta.hashCode());
 		return result;
 	}
 
@@ -34,6 +34,11 @@ public class ComentarioKey implements Serializable {
 				return false;
 		} else if (!citizen.equals(other.citizen))
 			return false;
+		if (id == null) {
+			if (other.id != null)
+				return false;
+		} else if (!id.equals(other.id))
+			return false;
 		if (propuesta == null) {
 			if (other.propuesta != null)
 				return false;
@@ -41,5 +46,7 @@ public class ComentarioKey implements Serializable {
 			return false;
 		return true;
 	}
+
+
 
 }

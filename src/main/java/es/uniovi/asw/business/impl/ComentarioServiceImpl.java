@@ -3,8 +3,8 @@ package es.uniovi.asw.business.impl;
 import es.uniovi.asw.business.ComentarioService;
 import es.uniovi.asw.conf.Factories;
 import es.uniovi.asw.model.Citizen;
-import es.uniovi.asw.model.Comentario;
-import es.uniovi.asw.model.Propuesta;
+import es.uniovi.asw.model.Commentary;
+import es.uniovi.asw.model.Proposal;
 import es.uniovi.asw.persistence.ComentarioRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,17 +22,17 @@ public class ComentarioServiceImpl implements ComentarioService {
 	private Factories factories;
 
 	@Override
-	public List<Comentario> findAll() {
+	public List<Commentary> findAll() {
 		return comentarioRepository.findAll();
 	}
 
 	@Override
-	public Comentario findById(long id) {
+	public Commentary findById(long id) {
 		return comentarioRepository.findByID(id);
 	}
 
 	@Override
-	public Comentario findByCitizen(String dni) {
+	public Commentary findByCitizen(String dni) {
 		return comentarioRepository.findByDni(dni);
 	}
 
@@ -42,9 +42,9 @@ public class ComentarioServiceImpl implements ComentarioService {
 	public void save(int idCitizen, int idPropuesta, String mensaje) {
 		Citizen citizen = factories.getServicesFactory().getCitizenService()
 				.findById(idCitizen);
-		Propuesta propuesta = factories.getServicesFactory()
+		Proposal propuesta = factories.getServicesFactory()
 				.getPropuestaService().findById(idPropuesta);
-		Comentario comentario = new Comentario(citizen, propuesta, mensaje);
+		Commentary comentario = new Commentary(citizen, propuesta, mensaje);
 		comentarioRepository.save(comentario);
 	}
 }

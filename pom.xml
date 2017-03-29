@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>es.uniovi.asw</groupId>
 	<artifactId>participationSystem4b</artifactId>
-	<name>participationSystem0</name>
+	<name>participationSystem4b</name>
 	<version>0.0.1</version>
 
 	<parent>
@@ -331,6 +331,16 @@
 			<id>AdrianGLumbreras</id>
 			<name>Adrián García Lumbreras</name>
 			<email>uo240002@uniovi.es</email>
+			<roles>
+				<role>Developer</role>
+			</roles>
+			<timezone>2</timezone>
+			<properties />
+		</developer>
+		<developer>
+			<id>RaulG89</id>
+			<name>Raúl Gómez Pérez</name>
+			<email>uo241016@uniovi.es</email>
 			<roles>
 				<role>Developer</role>
 			</roles>

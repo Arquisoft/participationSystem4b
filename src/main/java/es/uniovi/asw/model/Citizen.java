@@ -50,7 +50,7 @@ public class Citizen {
 	private Calendar calendar = GregorianCalendar.getInstance();
 
 	@OneToMany(mappedBy = "citizen", fetch = FetchType.EAGER)
-	private Set<Comentario> comentarios = new HashSet<Comentario>();
+	private Set<Commentary> comentarios = new HashSet<Commentary>();
 
 	Citizen() {
 	}
@@ -166,11 +166,11 @@ public class Citizen {
 		return new EncryptMD5().encrypting(password);
 	}
 
-	public Set<Comentario> _getComentarios() {
+	public Set<Commentary> _getComentarios() {
 		return comentarios;
 	}
 
-	public void setComentarios(Set<Comentario> comentarios) {
+	public void setComentarios(Set<Commentary> comentarios) {
 		this.comentarios = comentarios;
 	}
 

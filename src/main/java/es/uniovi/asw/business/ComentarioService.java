@@ -1,16 +1,16 @@
 package es.uniovi.asw.business;
 
-import es.uniovi.asw.model.Comentario;
+import es.uniovi.asw.model.Commentary;
 
 import java.util.List;
 
 public interface ComentarioService {
 
-	public List<Comentario> findAll();
+	public List<Commentary> findAll();
 
-	public Comentario findById(long id);
+	public Commentary findById(long id);
 
-	public Comentario findByCitizen(String dni);
+	public Commentary findByCitizen(String dni);
 
 	public void save(int idCitizen, int idPropuesta, String mensaje);
 }

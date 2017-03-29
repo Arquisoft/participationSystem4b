@@ -11,11 +11,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-import es.uniovi.asw.business.CitizenService;
-import es.uniovi.asw.business.PropuestaService;
+import es.uniovi.asw.conf.Factories;
 import es.uniovi.asw.model.Citizen;
 import es.uniovi.asw.model.EstadosPropuesta;
-import es.uniovi.asw.model.Propuesta;
+import es.uniovi.asw.model.Proposal;
 
 
 /**
@@ -25,9 +24,9 @@ import es.uniovi.asw.model.Propuesta;
 public class MainController {
 
     @Autowired
-    private PropuestaService servicioPropuesta;
-    private CitizenService servicioCitizen;
-    private Citizen usuario = null;
+    private Factories factory;
+    
+    private Citizen usuario;
 //
 //    // Para ver las paginas entrar en localhost:8080
 //    @RequestMapping(value = "/users", method = RequestMethod.GET)
@@ -45,18 +44,24 @@ public class MainController {
     
     //Se le llama al realizar login
     @RequestMapping(path = "/login", method = RequestMethod.POST)
-    public ModelAndView login(@RequestParam("dni") String dni, @RequestParam("password") String password){
+    public ModelAndView login(@RequestParam("dni") String dni
+    		, @RequestParam("password") String password){
     	//Para cuando la bbdd tenga contraseñas que nos conocemos
     	//usuario = servicio.findLoggableUser(dni , md5(password));
 
-    	usuario = servicioCitizen.findByDni(dni);
+    	usuario = factory.getServicesFactory()
+    			.getCitizenService()
+    			.findByDni(dni);
     	
     	if(usuario != null){
     		if(usuario.isAdmin())
-    			return new ModelAndView("admin");
+    			return new ModelAndView("admin"); //la contraseña de admin es "admin"
     		else{
-    			List<Propuesta> propuestas = servicioPropuesta.findByEstado(EstadosPropuesta.EnTramite);    		
-    			return new ModelAndView("usuario").addObject("propuestas", propuestas);
+    			List<Proposal> propuestas = factory.getServicesFactory()
+    					.getPropuestaService()
+    					.findByEstado(EstadosPropuesta.EnTramite);    		
+    			return new ModelAndView("usuario")
+    					.addObject("propuestas", propuestas);
     		}
     	} else
     		return fail();

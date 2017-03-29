@@ -4,47 +4,47 @@ import java.util.*;
 
 public class ConfiguracionPropuestas {
 
-	public List<Propuesta> propuestas = new ArrayList<Propuesta>();
+	public List<Proposal> propuestas = new ArrayList<Proposal>();
 
-	public List<Propuesta> getPropuestas() {
+	public List<Proposal> getPropuestas() {
 		// Tiene que devolver una lista con todas las propuestas que hay en la
 		// base de datos
 		return null;
 	}
 
 	public void establecerVotosMinimos(int votosMinimos) {
-		for (Propuesta propuesta : propuestas) {
+		for (Proposal propuesta : propuestas) {
 			propuesta.setVotosMinimos(votosMinimos);
 		}
 	}
 
 	public void aceptarPropuestas() {
-		for (Propuesta propuesta : propuestas) {
+		for (Proposal propuesta : propuestas) {
 			propuesta.aceptarPropuesta();
 		}
 	}
 
 	public void rechazarPropuestas() {
-		for (Propuesta propuesta : propuestas) {
+		for (Proposal propuesta : propuestas) {
 			propuesta.rechazarPropuesta();
 		}
 	}
 
 	public void anularPropuestas() {
-		for (Propuesta propuesta : propuestas) {
+		for (Proposal propuesta : propuestas) {
 			propuesta.anularPropuesta();
 		}
 	}
 
 	public void restablecerEstadoPropuestas() {
-		for (Propuesta propuesta : propuestas) {
+		for (Proposal propuesta : propuestas) {
 			propuesta.restablecerEstadoPropuesta();
 		}
 	}
 
-	public List<Propuesta> getPropuestasAceptadas() {
-		List<Propuesta> aceptadas = new ArrayList<Propuesta>();
-		for (Propuesta propuesta : propuestas) {
+	public List<Proposal> getPropuestasAceptadas() {
+		List<Proposal> aceptadas = new ArrayList<Proposal>();
+		for (Proposal propuesta : propuestas) {
 			if (propuesta.getEstado().equals(EstadosPropuesta.Aceptada)) {
 				aceptadas.add(propuesta);
 			}
@@ -52,9 +52,9 @@ public class ConfiguracionPropuestas {
 		return aceptadas;
 	}
 
-	public List<Propuesta> getPropuestasEnTramite() {
-		List<Propuesta> enTramite = new ArrayList<Propuesta>();
-		for (Propuesta propuesta : propuestas) {
+	public List<Proposal> getPropuestasEnTramite() {
+		List<Proposal> enTramite = new ArrayList<Proposal>();
+		for (Proposal propuesta : propuestas) {
 			if (propuesta.getEstado().equals(EstadosPropuesta.EnTramite)) {
 				enTramite.add(propuesta);
 			}
@@ -62,9 +62,9 @@ public class ConfiguracionPropuestas {
 		return enTramite;
 	}
 
-	public List<Propuesta> getPropuestasRechzadas() {
-		List<Propuesta> rechazadas = new ArrayList<Propuesta>();
-		for (Propuesta propuesta : propuestas) {
+	public List<Proposal> getPropuestasRechzadas() {
+		List<Proposal> rechazadas = new ArrayList<Proposal>();
+		for (Proposal propuesta : propuestas) {
 			if (propuesta.getEstado().equals(EstadosPropuesta.Rechazada)) {
 				rechazadas.add(propuesta);
 			}
@@ -72,9 +72,9 @@ public class ConfiguracionPropuestas {
 		return rechazadas;
 	}
 
-	public List<Propuesta> getPropuestasAnuladas() {
-		List<Propuesta> anuladas = new ArrayList<Propuesta>();
-		for (Propuesta propuesta : propuestas) {
+	public List<Proposal> getPropuestasAnuladas() {
+		List<Proposal> anuladas = new ArrayList<Proposal>();
+		for (Proposal propuesta : propuestas) {
 			if (propuesta.getEstado().equals(EstadosPropuesta.Anulada)) {
 				anuladas.add(propuesta);
 			}

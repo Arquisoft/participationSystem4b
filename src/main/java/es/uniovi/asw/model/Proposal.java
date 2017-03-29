@@ -8,7 +8,7 @@ import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "TPROPUESTA")
-public class Propuesta {
+public class Proposal {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private long id;
@@ -20,7 +20,7 @@ public class Propuesta {
 	private String contenido;
 
 	@OneToMany(mappedBy = "propuesta", fetch = FetchType.EAGER)
-	private Set<Comentario> comentarios = new HashSet<Comentario>();
+	private Set<Commentary> comentarios = new HashSet<Commentary>();
 
 	@NotNull
 	private int valoracion;
@@ -31,10 +31,10 @@ public class Propuesta {
 	@Enumerated(EnumType.STRING)
 	private EstadosPropuesta estado;
 
-	public Propuesta() {
+	public Proposal() {
 	}
 
-	public Propuesta(String nombre, String contenido, int votosMinimos) {
+	public Proposal(String nombre, String contenido, int votosMinimos) {
 		this.nombre = nombre;
 		this.contenido = contenido;
 		this.votosMinimos = votosMinimos;
@@ -82,11 +82,11 @@ public class Propuesta {
 		this.contenido = contenido;
 	}
 
-	Set<Comentario> _getComentarios() {
+	Set<Commentary> _getComentarios() {
 		return comentarios;
 	}
 
-	public void setComentarios(Set<Comentario> comentarios) {
+	public void setComentarios(Set<Commentary> comentarios) {
 		this.comentarios = comentarios;
 	}
 
@@ -118,7 +118,7 @@ public class Propuesta {
 		this.valoracion--;
 	}
 
-	public void insertarComentario(Comentario comentario) {
+	public void insertarComentario(Commentary comentario) {
 		this.comentarios.add(comentario);
 	}
 
@@ -127,7 +127,7 @@ public class Propuesta {
 		String cadena = "La propuesta: '" + nombre + "' tiene un total de "
 				+ valoracion + " votos y " + comentarios + " comentarios.\n";
 		if (comentarios.size() > 0) {
-			for (Comentario comentario : comentarios) {
+			for (Commentary comentario : comentarios) {
 				cadena += "\t" + comentario.getContenido() + ".\n";
 			}
 		}
@@ -151,7 +151,7 @@ public class Propuesta {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Propuesta other = (Propuesta) obj;
+		Proposal other = (Proposal) obj;
 		if (id != other.id)
 			return false;
 		return true;
