@@ -1,13 +1,21 @@
 package es.uniovi.asw.presentation;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.*;
+import org.springframework.stereotype.Controller;
 //import org.springframework.ui.Model;
 //import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.ModelAndView;
 
 import es.uniovi.asw.business.CitizenService;
+import es.uniovi.asw.business.PropuestaService;
 import es.uniovi.asw.model.Citizen;
+import es.uniovi.asw.model.EstadosPropuesta;
+import es.uniovi.asw.model.Propuesta;
 
 
 /**
@@ -17,7 +25,8 @@ import es.uniovi.asw.model.Citizen;
 public class MainController {
 
     @Autowired
-    private CitizenService servicio;
+    private PropuestaService servicioPropuesta;
+    private CitizenService servicioCitizen;
     private Citizen usuario = null;
 //
 //    // Para ver las paginas entrar en localhost:8080
@@ -36,24 +45,27 @@ public class MainController {
     
     //Se le llama al realizar login
     @RequestMapping(path = "/login", method = RequestMethod.POST)
-    public String login(@RequestParam("dni") String dni, @RequestParam("password") String password){
+    public ModelAndView login(@RequestParam("dni") String dni, @RequestParam("password") String password){
     	//Para cuando la bbdd tenga contraseñas que nos conocemos
     	//usuario = servicio.findLoggableUser(dni , md5(password));
-    	
-    	usuario = servicio.findByDni(dni);
+
+    	usuario = servicioCitizen.findByDni(dni);
     	
     	if(usuario != null){
     		if(usuario.isAdmin())
-    			return "admin";
-    		else
-    			return "usuario";
+    			return new ModelAndView("admin");
+    		else{
+    			List<Propuesta> propuestas = servicioPropuesta.findByEstado(EstadosPropuesta.EnTramite);    		
+    			return new ModelAndView("usuario").addObject("propuestas", propuestas);
+    		}
     	} else
     		return fail();
     }
     
     //Aqui se manda siempre que falle algo 
     @RequestMapping("/fail")
-    public String fail() {
-        return "error";
+    public ModelAndView fail() {
+    	usuario = null;
+        return new ModelAndView("error");
     }
 }

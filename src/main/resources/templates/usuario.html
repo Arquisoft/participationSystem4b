@@ -3,6 +3,11 @@
 	<body>
 		<header th:replace="plantillas/header :: menuUser"></header>
 		
+			<table>
+				<tr th:each="propuesta:${propuestas}">
+					<td th:text="${propuesta.nombre}"></td>
+				</tr>
+			</table>
 		
 		
 	</body>
