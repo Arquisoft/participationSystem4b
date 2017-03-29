@@ -13,5 +13,7 @@ public interface PropuestaService {
 	public Propuesta findByCitizen(String dni);
 
 	public void save(Propuesta propuesta);
+	
+	public void update(Propuesta propuesta);
 
 }

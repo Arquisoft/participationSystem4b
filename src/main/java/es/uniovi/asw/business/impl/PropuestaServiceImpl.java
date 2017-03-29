@@ -33,4 +33,11 @@ public class PropuestaServiceImpl implements PropuestaService {
 		propuestaRepository.save(propuesta);
 	}
 
+	@Override
+	public void update(Propuesta propuesta) {
+		//Falta Update en repository, sigo tarjeta de Jorge Votacion propuesta
+		//propuestaRepository.update(propuesta);
+		
+	}
+
 }
