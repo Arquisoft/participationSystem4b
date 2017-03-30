@@ -2,13 +2,13 @@ package es.uniovi.asw.model.types.keys;
 
 import java.io.Serializable;
 
-public class ComentarioKey implements Serializable {
+public class ComentaryKey implements Serializable {
 	private static final long serialVersionUID = 1L;
 	private Long id;
 	private Long citizen;
-	private Long propuesta;
+	private Long proposal;
 
-	ComentarioKey() { }
+	ComentaryKey() { }
 
 	@Override
 	public int hashCode() {
@@ -16,7 +16,7 @@ public class ComentarioKey implements Serializable {
 		int result = 1;
 		result = prime * result + ((citizen == null) ? 0 : citizen.hashCode());
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
-		result = prime * result + ((propuesta == null) ? 0 : propuesta.hashCode());
+		result = prime * result + ((proposal == null) ? 0 : proposal.hashCode());
 		return result;
 	}
 
@@ -28,7 +28,7 @@ public class ComentarioKey implements Serializable {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		ComentarioKey other = (ComentarioKey) obj;
+		ComentaryKey other = (ComentaryKey) obj;
 		if (citizen == null) {
 			if (other.citizen != null)
 				return false;
@@ -39,10 +39,10 @@ public class ComentarioKey implements Serializable {
 				return false;
 		} else if (!id.equals(other.id))
 			return false;
-		if (propuesta == null) {
-			if (other.propuesta != null)
+		if (proposal == null) {
+			if (other.proposal != null)
 				return false;
-		} else if (!propuesta.equals(other.propuesta))
+		} else if (!proposal.equals(other.proposal))
 			return false;
 		return true;
 	}

@@ -4,8 +4,17 @@
 		<header th:replace="plantillas/header :: menuUser"></header>
 		
 			<table>
-				<tr th:each="propuesta:${propuestas}">
-					<td th:text="${propuesta.nombre}"></td>
+				<thead>
+					<tr>
+						<th>Propuestas </th>
+						<th>Votaciones </th>
+						<th>Comentarios </th>
+					</tr>
+				</thead>
+				<tr th:each="proposal:${proposals}">
+					<td th:text="${proposal.name}"></td>
+					<td> votar </td>
+					<td> comentar </td>
 				</tr>
 			</table>
 		

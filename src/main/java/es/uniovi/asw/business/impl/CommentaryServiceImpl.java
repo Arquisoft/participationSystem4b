@@ -1,11 +1,11 @@
 package es.uniovi.asw.business.impl;
 
-import es.uniovi.asw.business.ComentarioService;
+import es.uniovi.asw.business.CommentaryService;
 import es.uniovi.asw.conf.Factories;
 import es.uniovi.asw.model.Citizen;
 import es.uniovi.asw.model.Commentary;
 import es.uniovi.asw.model.Proposal;
-import es.uniovi.asw.persistence.ComentarioRepository;
+import es.uniovi.asw.persistence.CommentaryRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -14,9 +14,9 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 @Service
-public class ComentarioServiceImpl implements ComentarioService {
+public class CommentaryServiceImpl implements CommentaryService {
 	@Autowired
-	private ComentarioRepository comentarioRepository;
+	private CommentaryRepository comentarioRepository;
 
 	@Autowired
 	private Factories factories;
@@ -39,12 +39,12 @@ public class ComentarioServiceImpl implements ComentarioService {
 	@Override
 	@Transactional
 	// Métodos @Transactional debe ir en @Service
-	public void save(int idCitizen, int idPropuesta, String mensaje) {
+	public void save(int idCitizen, int idProposal, String message) {
 		Citizen citizen = factories.getServicesFactory().getCitizenService()
 				.findById(idCitizen);
-		Proposal propuesta = factories.getServicesFactory()
-				.getPropuestaService().findById(idPropuesta);
-		Commentary comentario = new Commentary(citizen, propuesta, mensaje);
-		comentarioRepository.save(comentario);
+		Proposal proposal = factories.getServicesFactory()
+				.getProposalService().findById(idProposal);
+		Commentary comment = new Commentary(citizen, proposal, message);
+		comentarioRepository.save(comment);
 	}
 }

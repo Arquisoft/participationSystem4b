@@ -7,11 +7,11 @@ import java.util.GregorianCalendar;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
-import es.uniovi.asw.model.types.keys.ComentarioKey;
+import es.uniovi.asw.model.types.keys.ComentaryKey;
 
 @Entity
-@IdClass(ComentarioKey.class)
-@Table(name = "TCOMMENTARYS")
+@IdClass(ComentaryKey.class)
+@Table(name = "TCOMENTARIOS")
 public class Commentary {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)

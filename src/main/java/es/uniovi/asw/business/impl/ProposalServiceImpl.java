@@ -5,15 +5,15 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import es.uniovi.asw.business.PropuestaService;
+import es.uniovi.asw.business.ProposalService;
 import es.uniovi.asw.model.EstadosPropuesta;
 import es.uniovi.asw.model.Proposal;
-import es.uniovi.asw.persistence.PropuestaRepository;
+import es.uniovi.asw.persistence.ProposalRepository;
 
 @Service
-public class PropuestaServiceImpl implements PropuestaService {
+public class ProposalServiceImpl implements ProposalService {
 	@Autowired
-	private PropuestaRepository propuestaRepository;
+	private ProposalRepository propuestaRepository;
 
 	@Override
 	public List<Proposal> findAll() {
@@ -43,8 +43,8 @@ public class PropuestaServiceImpl implements PropuestaService {
 	}
 
 	@Override
-	public List<Proposal> findByEstado(EstadosPropuesta estado) {
-		return propuestaRepository.findByEstado(estado);
+	public List<Proposal> findByStatus(EstadosPropuesta estado) {
+		return propuestaRepository.findByStatus(estado);
 	}
 
 }

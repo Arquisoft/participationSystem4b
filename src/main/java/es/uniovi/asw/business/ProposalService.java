@@ -5,7 +5,7 @@ import java.util.List;
 import es.uniovi.asw.model.EstadosPropuesta;
 import es.uniovi.asw.model.Proposal;
 
-public interface PropuestaService {
+public interface ProposalService {
 
 	public List<Proposal> findAll();
 
@@ -17,6 +17,6 @@ public interface PropuestaService {
 	
 	public void update(Proposal propuesta);
 
-	public List<Proposal> findByEstado(EstadosPropuesta estado);
+	public List<Proposal> findByStatus(EstadosPropuesta estado);
 
 }

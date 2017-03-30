@@ -14,92 +14,92 @@ public class Proposal {
 	private long id;
 
 	@NotNull
-	private String nombre;
+	private String name;
 
 	@NotNull
-	private String contenido;
+	private String content;
 
-	@OneToMany(mappedBy = "propuesta", fetch = FetchType.EAGER)
-	private Set<Commentary> comentarios = new HashSet<Commentary>();
-
-	@NotNull
-	private int valoracion;
+	@OneToMany(mappedBy = "proposal", fetch = FetchType.EAGER)
+	private Set<Commentary> comments = new HashSet<Commentary>();
 
 	@NotNull
-	private int votosMinimos;
+	private int valoration;
+
+	@NotNull
+	private int minVotes;
 
 	@Enumerated(EnumType.STRING)
-	private EstadosPropuesta estado;
+	private EstadosPropuesta status;
 
 	public Proposal() {
 	}
 
-	public Proposal(String nombre, String contenido, int votosMinimos) {
-		this.nombre = nombre;
-		this.contenido = contenido;
-		this.votosMinimos = votosMinimos;
-		this.estado = EstadosPropuesta.EnTramite;
-		this.valoracion = 0;
+	public Proposal(String name, String content, int minVotes) {
+		this.name = name;
+		this.content = content;
+		this.minVotes = minVotes;
+		this.status = EstadosPropuesta.EnTramite;
+		this.valoration = 0;
 	}
 
 	public EstadosPropuesta getEstado() {
-		return estado;
+		return status;
 	}
 
-	public void setEstado(EstadosPropuesta estado) {
-		this.estado = estado;
+	public void setStatus(EstadosPropuesta status) {
+		this.status = status;
 	}
 
-	public void restablecerEstadoPropuesta() {
-		estado = EstadosPropuesta.EnTramite;
+	public void restoreEstadoPropuesta() {
+		status = EstadosPropuesta.EnTramite;
 	}
 
-	public void rechazarPropuesta() {
-		estado = EstadosPropuesta.Rechazada;
+	public void refuseProposal() {
+		status = EstadosPropuesta.Rechazada;
 	}
 
-	public void aceptarPropuesta() {
-		estado = EstadosPropuesta.Aceptada;
+	public void acceptProposal() {
+		status = EstadosPropuesta.Aceptada;
 	}
 
-	public void anularPropuesta() {
-		estado = EstadosPropuesta.Anulada;
+	public void cancelProposal() {
+		status = EstadosPropuesta.Anulada;
 	}
 
-	public String getNombre() {
-		return nombre;
+	public String getName() {
+		return name;
 	}
 
-	public void setNombre(String nombre) {
-		this.nombre = nombre;
+	public void setName(String name) {
+		this.name = name;
 	}
 
-	public String getContenido() {
-		return contenido;
+	public String getContent() {
+		return content;
 	}
 
-	public void setContenido(String contenido) {
-		this.contenido = contenido;
+	public void setContent(String content) {
+		this.content = content;
 	}
 
-	Set<Commentary> _getComentarios() {
-		return comentarios;
+	Set<Commentary> _getComments() {
+		return comments;
 	}
 
-	public void setComentarios(Set<Commentary> comentarios) {
-		this.comentarios = comentarios;
+	public void setComments(Set<Commentary> comments) {
+		this.comments = comments;
 	}
 
-	public int getValoracion() {
-		return valoracion;
+	public int getValoration() {
+		return valoration;
 	}
 
-	public int getVotosMinimos() {
-		return votosMinimos;
+	public int getMinVotes() {
+		return minVotes;
 	}
 
-	public void setVotosMinimos(int votosMinimos) {
-		this.votosMinimos = votosMinimos;
+	public void setMinVotes(int minVotes) {
+		this.minVotes = minVotes;
 	}
 
 	public long getId() {
@@ -110,25 +110,25 @@ public class Proposal {
 		this.id = id;
 	}
 
-	public void votoPositivo() {
-		this.valoracion++;
+	public void positiveVote() {
+		this.valoration++;
 	}
 
-	public void votoNegativo() {
-		this.valoracion--;
+	public void negativeVote() {
+		this.valoration--;
 	}
 
-	public void insertarComentario(Commentary comentario) {
-		this.comentarios.add(comentario);
+	public void insertComment(Commentary comment) {
+		this.comments.add(comment);
 	}
 
 	@Override
 	public String toString() {
-		String cadena = "La propuesta: '" + nombre + "' tiene un total de "
-				+ valoracion + " votos y " + comentarios + " comentarios.\n";
-		if (comentarios.size() > 0) {
-			for (Commentary comentario : comentarios) {
-				cadena += "\t" + comentario.getContenido() + ".\n";
+		String cadena = "La propuesta: '" + name + "' tiene un total de "
+				+ valoration + " votos y " + comments + " comments.\n";
+		if (comments.size() > 0) {
+			for (Commentary comment : comments) {
+				cadena += "\t" + comment.getContenido() + ".\n";
 			}
 		}
 

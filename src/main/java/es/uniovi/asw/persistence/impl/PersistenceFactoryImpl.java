@@ -1,9 +1,9 @@
 package es.uniovi.asw.persistence.impl;
 
 import es.uniovi.asw.persistence.CitizenRepository;
-import es.uniovi.asw.persistence.ComentarioRepository;
+import es.uniovi.asw.persistence.CommentaryRepository;
 import es.uniovi.asw.persistence.PersistenceFactory;
-import es.uniovi.asw.persistence.PropuestaRepository;
+import es.uniovi.asw.persistence.ProposalRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
@@ -17,10 +17,10 @@ public class PersistenceFactoryImpl implements PersistenceFactory {
 	private CitizenRepository citizenRepository;
 
 	@Autowired
-	private PropuestaRepository propuestaRepository;
+	private ProposalRepository proposalRepository;
 
 	@Autowired
-	private ComentarioRepository comentarioRepository;
+	private CommentaryRepository commentaryRepository;
 
 	@Override
 	public CitizenRepository newCitizenRepository() {
@@ -28,12 +28,12 @@ public class PersistenceFactoryImpl implements PersistenceFactory {
 	}
 
 	@Override
-	public PropuestaRepository newPropuestaRepository() {
-		return propuestaRepository;
+	public ProposalRepository newProposalRepository() {
+		return proposalRepository;
 	}
 
 	@Override
-	public ComentarioRepository newComentarioRepository() {
-		return comentarioRepository;
+	public CommentaryRepository newCommentaryRepository() {
+		return commentaryRepository;
 	}
 }

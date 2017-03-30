@@ -6,7 +6,7 @@ import org.springframework.stereotype.Service;
 public interface ServicesFactory {
 	public CitizenService getCitizenService();
 
-	public PropuestaService getPropuestaService();
+	public ProposalService getProposalService();
 
-	public ComentarioService getComentarioService();
+	public CommentaryService getCommentaryService();
 }

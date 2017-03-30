@@ -3,8 +3,8 @@ package es.uniovi.asw.business.impl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import es.uniovi.asw.business.CitizenService;
-import es.uniovi.asw.business.ComentarioService;
-import es.uniovi.asw.business.PropuestaService;
+import es.uniovi.asw.business.CommentaryService;
+import es.uniovi.asw.business.ProposalService;
 import es.uniovi.asw.business.ServicesFactory;
 
 @Service
@@ -14,10 +14,10 @@ public class ServicesFactoryImpl implements ServicesFactory {
 	private CitizenServiceImpl citizenService;
 
 	@Autowired
-	private PropuestaServiceImpl propuestaService;
+	private ProposalServiceImpl proposalService;
 
 	@Autowired
-	private ComentarioServiceImpl comentarioService;
+	private CommentaryServiceImpl commentaryService;
 
 	@Override
 	public CitizenService getCitizenService() {
@@ -25,12 +25,12 @@ public class ServicesFactoryImpl implements ServicesFactory {
 	}
 
 	@Override
-	public PropuestaService getPropuestaService() {
-		return propuestaService;
+	public ProposalService getProposalService() {
+		return proposalService;
 	}
 
 	@Override
-	public ComentarioService getComentarioService() {
-		return comentarioService;
+	public CommentaryService getCommentaryService() {
+		return commentaryService;
 	}
 }

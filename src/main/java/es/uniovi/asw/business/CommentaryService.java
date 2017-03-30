@@ -4,7 +4,7 @@ import es.uniovi.asw.model.Commentary;
 
 import java.util.List;
 
-public interface ComentarioService {
+public interface CommentaryService {
 
 	public List<Commentary> findAll();
 
@@ -12,5 +12,5 @@ public interface ComentarioService {
 
 	public Commentary findByCitizen(String dni);
 
-	public void save(int idCitizen, int idPropuesta, String mensaje);
+	public void save(int idCitizen, int idProposal, String message);
 }

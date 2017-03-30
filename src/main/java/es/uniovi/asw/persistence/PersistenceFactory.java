@@ -4,7 +4,7 @@ public interface PersistenceFactory {
 
 	public CitizenRepository newCitizenRepository();
 
-	public PropuestaRepository newPropuestaRepository();
+	public ProposalRepository newProposalRepository();
 
-	public ComentarioRepository newComentarioRepository();
+	public CommentaryRepository newCommentaryRepository();
 }

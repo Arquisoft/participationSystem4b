@@ -57,11 +57,11 @@ public class MainController {
     		if(usuario.isAdmin())
     			return new ModelAndView("admin"); //la contraseña de admin es "admin"
     		else{
-    			List<Proposal> propuestas = factory.getServicesFactory()
-    					.getPropuestaService()
-    					.findByEstado(EstadosPropuesta.EnTramite);    		
+    			List<Proposal> proposals = factory.getServicesFactory()
+    					.getProposalService()
+    					.findByStatus(EstadosPropuesta.EnTramite);    		
     			return new ModelAndView("usuario")
-    					.addObject("propuestas", propuestas);
+    					.addObject("proposals", proposals);
     		}
     	} else
     		return fail();
