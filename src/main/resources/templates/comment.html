@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+	<head>
+		<head th:replace="plantillas/header :: head"></head>
+	</head>
+	<body>
+		<header th:replace="plantillas/header :: menuUserVer"></header>
+		<h3 th:if="${hidden}">Se el primero en comentar.</h3>
+		<table th:if="${not hidden}">
+			<thead>
+				<tr>
+					<th>Subido por </th>						
+					<th>Descripción </th>
+				</tr>
+			</thead>
+			<tr th:each="comment:${commentaries}">
+				<td th:text="${comment.citizen.name}"></td>
+				<td th:text="${proposal.content}"></td>
+			</tr>
+		</table>
+	</body>
+</html>

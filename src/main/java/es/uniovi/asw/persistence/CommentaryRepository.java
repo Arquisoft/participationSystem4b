@@ -2,6 +2,8 @@ package es.uniovi.asw.persistence;
 
 import es.uniovi.asw.model.Commentary;
 
+import java.util.List;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
@@ -14,4 +16,7 @@ public interface CommentaryRepository extends JpaRepository<Commentary, Long> {
 	
 	@Query("Select c from Commentary c where c.proposal.id=?1")
 	Commentary findByProposalId(long id);
+
+	@Query("Select c from Commentary c where c.proposal.id=?1 and c.status='Correcto'")
+	List<Commentary> findByPorposal(long id);
 }

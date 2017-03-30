@@ -6,15 +6,20 @@
 			<table>
 				<thead>
 					<tr>
-						<th>Propuestas </th>
+						<th>Propuestas </th>						
+						<th>Descripción </th>
 						<th>Votaciones </th>
 						<th>Comentarios </th>
 					</tr>
 				</thead>
 				<tr th:each="proposal:${proposals}">
 					<td th:text="${proposal.name}"></td>
-					<td> votar </td>
-					<td> comentar </td>
+					<td th:text="${proposal.content}"></td>
+					<td> 
+						<img src="..\static\images\voteY.JPG"/>
+						<img src="..\static\images\voteN.JPG"/>
+					</td>
+					<td> <a th:href="@{/comment(id=${proposal.id})}">ver</a></td>
 				</tr>
 			</table>
 		

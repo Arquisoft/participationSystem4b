@@ -13,6 +13,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import es.uniovi.asw.conf.Factories;
 import es.uniovi.asw.model.Citizen;
+import es.uniovi.asw.model.Commentary;
 import es.uniovi.asw.model.EstadosPropuesta;
 import es.uniovi.asw.model.Proposal;
 
@@ -65,6 +66,33 @@ public class MainController {
     		}
     	} else
     		return fail();
+    }
+    
+    @RequestMapping(path = "/comment", method = RequestMethod.GET)
+    public ModelAndView comment(@RequestParam String id){
+    	if(usuario != null){
+        	List<Commentary> commentaries = factory.getServicesFactory().getCommentaryService()
+        			.findByProposal(Long.parseLong(id));
+	    	if(commentaries!=null)
+	    		return new ModelAndView("comment")
+	    				.addObject("commentaries", commentaries)
+	    				.addObject("hidden", true);
+	    	else
+	    		return new ModelAndView("comment")
+	    				.addObject("hidden", false);
+    	}else
+    		return fail();
+    }
+    
+    //Aqui solo llamamos cuando queramos que vaya hacia atras, es decir,
+    //nos logeamos como usuario pincha en ver comentarios y pulsa inicio
+    @RequestMapping("/usuario")
+    public ModelAndView backUser() {
+    	List<Proposal> proposals = factory.getServicesFactory()
+				.getProposalService()
+				.findByStatus(EstadosPropuesta.EnTramite);    		
+		return new ModelAndView("usuario")
+				.addObject("proposals", proposals);
     }
     
     //Aqui se manda siempre que falle algo 

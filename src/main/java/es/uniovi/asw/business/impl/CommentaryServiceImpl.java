@@ -47,4 +47,10 @@ public class CommentaryServiceImpl implements CommentaryService {
 		Commentary comment = new Commentary(citizen, proposal, message);
 		comentarioRepository.save(comment);
 	}
+
+	@Override
+	public List<Commentary> findByProposal(long id) {
+		// TODO Auto-generated method stub
+		return comentarioRepository.findByPorposal(id);
+	}
 }
