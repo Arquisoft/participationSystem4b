@@ -208,7 +208,20 @@ public class MainController {
 		if(usuario != null){
 			List<Proposal> proposals = factory.getServicesFactory().getProposalService()
 					.findByStatus(EstadosPropuesta.EnTramite);
-			return new ModelAndView("enTramite").addObject("proposals", proposals);
+
+			if(usuario.isAdmin()){
+				if(proposals != null)
+					return new ModelAndView("enTramiteAdmin").addObject("proposals", proposals)
+						.addObject("hidden", false);
+				else
+					return new ModelAndView("enTramiteAdmin").addObject("hidden",true);
+			}else{
+				if(proposals != null){
+					return new ModelAndView("enTramite").addObject("proposals", proposals)
+						.addObject("hidden", false);
+				}else
+					return new ModelAndView("enTramite").addObject("hidden",true);
+			}
 		}else
 			return fail();
 			
@@ -219,7 +232,14 @@ public class MainController {
 		if(usuario != null){
 			List<Proposal> proposals = factory.getServicesFactory().getProposalService()
 					.findByStatus(EstadosPropuesta.Rechazada);
-			return new ModelAndView("rechazadas").addObject("proposals", proposals);
+			if(usuario.isAdmin()){
+				if(proposals != null)
+					return new ModelAndView("rechazadas").addObject("proposals", proposals)
+						.addObject("hidden", true);
+				else
+					return new ModelAndView("rechazadas").addObject("hidden",false);
+			}else
+				return fail();	
 		}else
 			return fail();
 			
@@ -230,7 +250,19 @@ public class MainController {
 		if(usuario != null){
 			List<Proposal> proposals = factory.getServicesFactory().getProposalService()
 					.findByStatus(EstadosPropuesta.Aceptada);
-			return new ModelAndView("aceptadas").addObject("proposals", proposals);
+			if(usuario.isAdmin()){
+				if(proposals != null)
+					return new ModelAndView("aceptadasAdmin").addObject("proposals", proposals)
+						.addObject("hidden", true);
+				else
+					return new ModelAndView("aceptadasAdmin").addObject("hidden",false);
+			}else{
+				if(proposals != null)
+					return new ModelAndView("aceptadas").addObject("proposals", proposals)
+						.addObject("hidden", true);
+				else
+					return new ModelAndView("aceptadas").addObject("hidden",false);
+			}
 		}else
 			return fail();
 	}

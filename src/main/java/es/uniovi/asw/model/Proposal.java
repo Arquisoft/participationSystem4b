@@ -42,7 +42,7 @@ public class Proposal {
 		this.valoration = 0;
 	}
 
-	public EstadosPropuesta getEstado() {
+	public EstadosPropuesta getStatus() {
 		return status;
 	}
 
