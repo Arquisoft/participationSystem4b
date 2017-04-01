@@ -17,4 +17,5 @@ public interface ProposalRepository extends JpaRepository<Proposal, Long> {
 
 	@Query("Select p from Proposal p where p.status=?1")
 	List<Proposal> findByStatus(EstadosPropuesta status);
+	
 }

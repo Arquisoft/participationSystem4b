@@ -37,9 +37,7 @@ public class ProposalServiceImpl implements ProposalService {
 
 	@Override
 	public void update(Proposal propuesta) {
-		//Falta Update en repository, sigo tarjeta de Jorge Votacion propuesta
-		//propuestaRepository.update(propuesta);
-		
+		propuestaRepository.save(propuesta);
 	}
 
 	@Override
