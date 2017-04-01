@@ -56,10 +56,9 @@ public class MainController {
 		usuario = factory.getServicesFactory().getCitizenService().findByDni(dni);
 
 		if (usuario != null) {
-			if (usuario.isAdmin())
+			if (usuario.isAdmin()) {
 				return new ModelAndView("admin"); // la contraseña de admin es
-													// "admin"
-			else {
+			} else {
 				List<Proposal> proposals = factory.getServicesFactory().getProposalService()
 						.findByStatus(EstadosPropuesta.EnTramite);
 				return new ModelAndView("usuario").addObject("proposals", proposals);
@@ -96,15 +95,13 @@ public class MainController {
 	// Cuando guardamos el comentario
 	@RequestMapping(path = "/salvarComment", method = RequestMethod.POST)
 	public ModelAndView salvarComment(@RequestParam("comment") String comment) {
-		if (idPropuesta != null) {
-			if (usuario != null) {
-				System.out.println(comment + " \nid de la propuesta: " + Long.toString(idPropuesta));
-				// Arreglar la parte del modelo
-				 factory.getServicesFactory().getCommentaryService().save(usuario.getId(),
-						 idPropuesta, comment);
+		if (idPropuesta != null && usuario != null) {
+			System.out.println(comment + " \nid de la propuesta: " + Long.toString(idPropuesta));
+			// Arreglar la parte del modelo
+			factory.getServicesFactory().getCommentaryService().save(usuario.getId(), idPropuesta, comment);
 
-				return comment(Long.toString(idPropuesta));
-			}
+			return comment(Long.toString(idPropuesta));
+
 		}
 		return fail();
 	}
@@ -182,7 +179,7 @@ public class MainController {
 		if (usuario != null) {
 			Proposal propuesta = factory.getServicesFactory().getProposalService()
 					.findById(Long.parseLong(idPropuesta));
-			propuesta.negativeVote();			
+			propuesta.negativeVote();
 			factory.getServicesFactory().getProposalService().update(propuesta);
 			List<Proposal> proposals = factory.getServicesFactory().getProposalService()
 					.findByStatus(EstadosPropuesta.EnTramite);
@@ -207,7 +204,7 @@ public class MainController {
 		if (usuario != null) {
 			List<Proposal> proposals = factory.getServicesFactory().getProposalService()
 					.findByStatus(EstadosPropuesta.EnTramite);
-			
+
 			if (usuario.isAdmin()) {
 				if (proposals != null)
 					return new ModelAndView("enTramiteAdmin").addObject("proposals", proposals).addObject("hidden",
@@ -262,20 +259,19 @@ public class MainController {
 		} else
 			return fail();
 	}
-	
+
 	@RequestMapping(path = "/rechazarPropuesta", method = RequestMethod.GET)
 	public ModelAndView rechazarPropuesta(@RequestParam("idPropuesta") String idPropuesta) {
 		if (usuario != null) {
 			Proposal propuesta = factory.getServicesFactory().getProposalService()
 					.findById(Long.parseLong(idPropuesta));
 			propuesta.setStatus(EstadosPropuesta.Rechazada);
-			
+
 			factory.getServicesFactory().getProposalService().update(propuesta);
 			List<Proposal> proposals = factory.getServicesFactory().getProposalService()
 					.findByStatus(EstadosPropuesta.EnTramite);
-			
-			return new ModelAndView("enTramiteAdmin").addObject("proposals", proposals).addObject("hidden",
-					false);
+
+			return new ModelAndView("enTramiteAdmin").addObject("proposals", proposals).addObject("hidden", false);
 		} else
 			return fail();
 	}

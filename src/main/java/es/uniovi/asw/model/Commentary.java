@@ -80,7 +80,7 @@ public class Commentary {
 		return proposal;
 	}
 
-	void _setProposal(Proposal proposal) {
+	public void setProposal(Proposal proposal) {
 		this.proposal = proposal;
 	}
 
@@ -88,7 +88,7 @@ public class Commentary {
 		return citizen;
 	}
 
-	void _setCitizen(Citizen citizen) {
+	public void setCitizen(Citizen citizen) {
 		this.citizen = citizen;
 	}
 
@@ -96,7 +96,7 @@ public class Commentary {
 		return creationDate;
 	}
 
-	void _setCreationDate(Date creationDate) {
+	public void setCreationDate(Date creationDate) {
 		this.creationDate = creationDate;
 	}
 
