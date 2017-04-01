@@ -22,8 +22,8 @@
         <header class="header" th:fragment="menuUser">
             <nav class="top_menu">
                 <ul>
-                	<li><a href="#">Item 1</a></li>
-                    <li><a href="#">Item 2</a></li>
+                	<li><a href="/usuario">Inicio</a></li>
+                    <li><a href="#">Nueva propuesta</a></li>
                     <li><a href="/">Salir</a></li>
                 </ul>
             </nav>
@@ -33,7 +33,7 @@
             <nav class="top_menu">
                 <ul>
                 	<li><a href="/usuario">Inicio</a></li>
-                    <li><a href="#">Nuevo comentario</a></li>
+                    <li><a th:href="@{/crearComment(id=${id})}">Nuevo comentario</a></li>
                     <li><a href="/">Salir</a></li>
                 </ul>
             </nav>

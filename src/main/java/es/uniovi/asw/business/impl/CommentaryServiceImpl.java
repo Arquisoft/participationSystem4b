@@ -39,7 +39,7 @@ public class CommentaryServiceImpl implements CommentaryService {
 	@Override
 	@Transactional
 	// Métodos @Transactional debe ir en @Service
-	public void save(int idCitizen, int idProposal, String message) {
+	public void save(Long idCitizen, Long idProposal, String message) {
 		Citizen citizen = factories.getServicesFactory().getCitizenService()
 				.findById(idCitizen);
 		Proposal proposal = factories.getServicesFactory()

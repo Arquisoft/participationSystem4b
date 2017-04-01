@@ -28,6 +28,10 @@ public class MainController {
     private Factories factory;
     
     private Citizen usuario;
+    
+    //Con este id controlo la propuesta en la que estoy cuando se navega entre 
+    // comentarios 
+    private Long idPropuesta = null;
 //
 //    // Para ver las paginas entrar en localhost:8080
 //    @RequestMapping(value = "/users", method = RequestMethod.GET)
@@ -76,29 +80,69 @@ public class MainController {
 	    	if(commentaries!=null)
 	    		return new ModelAndView("comment")
 	    				.addObject("commentaries", commentaries)
-	    				.addObject("hidden", true);
+	    				.addObject("hidden", true)
+	    				.addObject("id", id);
 	    	else
 	    		return new ModelAndView("comment")
-	    				.addObject("hidden", false);
+	    				.addObject("hidden", false)
+	    				.addObject("id", id);
     	}else
     		return fail();
     }
+    
+    //Cuando en el menu de comments pulsamos en añadir un nuevo comentario
+    @RequestMapping(path = "/crearComment", method = RequestMethod.GET)
+    public ModelAndView crearComment(@RequestParam String id){
+    	if(usuario != null){
+    		this.idPropuesta = Long.parseLong(id);
+    		return new ModelAndView("crearComment").addObject("hidden",false);
+    	}else{
+    		return fail();
+    	}
+    }
+    
+  //Cuando guardamos el comentario
+    @RequestMapping(path = "/salvarComment", method = RequestMethod.POST)
+    public ModelAndView salvarComment(@RequestParam("comment") String comment){
+    	if(idPropuesta != null){
+	    	if(usuario != null){
+		    	System.out.println(comment + " \nid de la propuesta: " + Long.toString(idPropuesta));
+		    	//Arreglar la parte del modelo
+		    	//factory.getServicesFactory().getCommentaryService().save(usuario.getId(), idPropuesta, comment);
+		    	return comment(Long.toString(idPropuesta));
+	    	} 
+	    }
+    	return fail();
+    }
+    
+    
     
     //Aqui solo llamamos cuando queramos que vaya hacia atras, es decir,
     //nos logeamos como usuario pincha en ver comentarios y pulsa inicio
     @RequestMapping("/usuario")
     public ModelAndView backUser() {
-    	List<Proposal> proposals = factory.getServicesFactory()
-				.getProposalService()
-				.findByStatus(EstadosPropuesta.EnTramite);    		
-		return new ModelAndView("usuario")
-				.addObject("proposals", proposals);
+    	if(usuario != null){
+    		if(usuario.isAdmin()) {
+    			return new ModelAndView("admin");
+    		}else{
+    			idPropuesta = null;			//cuando se pulsa en incio reseteo el id de la propuesta para evitar la navegacion incorrecta
+		    	List<Proposal> proposals = factory.getServicesFactory()
+						.getProposalService()
+						.findByStatus(EstadosPropuesta.EnTramite);    		
+				return new ModelAndView("usuario")
+						.addObject("proposals", proposals);
+    		}
+    	}else {
+    		return fail();
+    	}
     }
+    
     
     //Aqui se manda siempre que falle algo 
     @RequestMapping("/fail")
     public ModelAndView fail() {
     	usuario = null;
+    	idPropuesta = null;
         return new ModelAndView("error");
     }
 }
