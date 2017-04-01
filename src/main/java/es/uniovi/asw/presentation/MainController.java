@@ -229,9 +229,9 @@ public class MainController {
 					.findByStatus(EstadosPropuesta.Rechazada);
 			if (usuario.isAdmin()) {
 				if (proposals != null)
-					return new ModelAndView("rechazadas").addObject("proposals", proposals).addObject("hidden", true);
+					return new ModelAndView("rechazadas").addObject("proposals", proposals).addObject("hidden", false);
 				else
-					return new ModelAndView("rechazadas").addObject("hidden", false);
+					return new ModelAndView("rechazadas").addObject("hidden", true);
 			} else
 				return fail();
 		} else
