@@ -11,16 +11,15 @@ public class Application {
 	public static void main(String[] args) {
 		SpringApplication.run(Application.class, args);
 	}
-	
+
 	@Bean
 	public CommandLineRunner demo() {
 		return (args) -> {
 			try {
-				
 			} catch (Exception e1) {
 				e1.printStackTrace();
 			}
 		};
 	}
-	
+
 }

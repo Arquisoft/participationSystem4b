@@ -73,7 +73,7 @@ public class Citizen {
 		return id;
 	}
 	
-	void _setId(Long id){
+	void setId(Long id){
 		this.id = id;
 	}
 
