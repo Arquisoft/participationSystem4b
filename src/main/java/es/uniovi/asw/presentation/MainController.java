@@ -100,8 +100,8 @@ public class MainController {
 			if (usuario != null) {
 				System.out.println(comment + " \nid de la propuesta: " + Long.toString(idPropuesta));
 				// Arreglar la parte del modelo
-				// factory.getServicesFactory().getCommentaryService().save(usuario.getId(),
-				// idPropuesta, comment);
+				 factory.getServicesFactory().getCommentaryService().save(usuario.getId(),
+				 idPropuesta, comment);
 				return comment(Long.toString(idPropuesta));
 			}
 		}
