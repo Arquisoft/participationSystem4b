@@ -45,7 +45,7 @@ public class ConfiguracionPropuestas {
 	public List<Proposal> getPropuestasAceptadas() {
 		List<Proposal> accepted = new ArrayList<Proposal>();
 		for (Proposal proposal : proposals) {
-			if (proposal.getEstado().equals(EstadosPropuesta.Aceptada)) {
+			if (proposal.getStatus().equals(EstadosPropuesta.Aceptada)) {
 				accepted.add(proposal);
 			}
 		}
@@ -55,7 +55,7 @@ public class ConfiguracionPropuestas {
 	public List<Proposal> getPropuestasEnTramite() {
 		List<Proposal> enTramite = new ArrayList<Proposal>();
 		for (Proposal proposal : proposals) {
-			if (proposal.getEstado().equals(EstadosPropuesta.EnTramite)) {
+			if (proposal.getStatus().equals(EstadosPropuesta.EnTramite)) {
 				enTramite.add(proposal);
 			}
 		}
@@ -65,7 +65,7 @@ public class ConfiguracionPropuestas {
 	public List<Proposal> getPropuestasRechzadas() {
 		List<Proposal> rechazadas = new ArrayList<Proposal>();
 		for (Proposal proposal : proposals) {
-			if (proposal.getEstado().equals(EstadosPropuesta.Rechazada)) {
+			if (proposal.getStatus().equals(EstadosPropuesta.Rechazada)) {
 				rechazadas.add(proposal);
 			}
 		}
@@ -75,7 +75,7 @@ public class ConfiguracionPropuestas {
 	public List<Proposal> getPropuestasAnuladas() {
 		List<Proposal> anuladas = new ArrayList<Proposal>();
 		for (Proposal proposal : proposals) {
-			if (proposal.getEstado().equals(EstadosPropuesta.Anulada)) {
+			if (proposal.getStatus().equals(EstadosPropuesta.Anulada)) {
 				anuladas.add(proposal);
 			}
 		}
