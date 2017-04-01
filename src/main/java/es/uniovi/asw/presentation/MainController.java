@@ -95,14 +95,13 @@ public class MainController {
 	// Cuando guardamos el comentario
 	@RequestMapping(path = "/salvarComment", method = RequestMethod.POST)
 	public ModelAndView salvarComment(@RequestParam("comment") String comment) {
-		if (idPropuesta != null) {
-			if (usuario != null) {
-				System.out.println(comment + " \nid de la propuesta: " + Long.toString(idPropuesta));
-				// Arreglar la parte del modelo
-				factory.getServicesFactory().getCommentaryService().save(usuario.getId(), idPropuesta, comment);
+		if (idPropuesta != null && usuario != null) {
+			System.out.println(comment + " \nid de la propuesta: " + Long.toString(idPropuesta));
+			// Arreglar la parte del modelo
+			factory.getServicesFactory().getCommentaryService().save(usuario.getId(), idPropuesta, comment);
 
-				return comment(Long.toString(idPropuesta));
-			}
+			return comment(Long.toString(idPropuesta));
+
 		}
 		return fail();
 	}

@@ -82,7 +82,7 @@ public class Proposal {
 		this.content = content;
 	}
 
-	Set<Commentary> getComments() {
+	public Set<Commentary> getComments() {
 		return comments;
 	}
 
@@ -106,7 +106,7 @@ public class Proposal {
 		return id;
 	}
 
-	void setId(Long id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 

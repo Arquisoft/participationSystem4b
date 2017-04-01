@@ -73,7 +73,7 @@ public class Citizen {
 		return id;
 	}
 	
-	void setId(Long id){
+	public void setId(Long id){
 		this.id = id;
 	}
 
@@ -170,7 +170,7 @@ public class Citizen {
 		return new EncryptMD5().encrypting(password);
 	}
 
-	public Set<Commentary> _getComentarios() {
+	public Set<Commentary> getComentarios() {
 		return comentarios;
 	}
 
