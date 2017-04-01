@@ -20,7 +20,7 @@ public class Citizen {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	private long id;
+	private Long id;
 
 	@NotNull
 	private String nombre;
@@ -69,8 +69,12 @@ public class Citizen {
 		this.isAdmin = false;
 	}
 
-	public long getId() {
+	public Long getId() {
 		return id;
+	}
+	
+	void _setId(Long id){
+		this.id = id;
 	}
 
 	public String getNombre() {
@@ -196,7 +200,7 @@ public class Citizen {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + (int) (id ^ (id >>> 32));
+		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		return result;
 	}
 
@@ -209,9 +213,15 @@ public class Citizen {
 		if (getClass() != obj.getClass())
 			return false;
 		Citizen other = (Citizen) obj;
-		if (id != other.id)
+		if (id == null) {
+			if (other.id != null)
+				return false;
+		} else if (!id.equals(other.id))
 			return false;
 		return true;
 	}
+
+
+	
 
 }

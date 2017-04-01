@@ -13,9 +13,9 @@ import es.uniovi.asw.model.types.keys.ComentaryKey;
 @IdClass(ComentaryKey.class)
 @Table(name = "TCOMENTARIOS")
 public class Commentary {
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	private long id;
+//	@Id
+//	@GeneratedValue(strategy = GenerationType.AUTO)
+//	private Long id;
 	
 	@Id
 	@ManyToOne
@@ -48,6 +48,14 @@ public class Commentary {
 		this.valoration = 0;
 		this.status = EstadosComentario.Correcto;
 	}
+	
+//	public Long getId() {
+//		return id;
+//	}
+//
+//	void _setId(Long id) {
+//		this.id = id;
+//	}
 
 	public String getContenido() {
 		return content;
@@ -115,10 +123,7 @@ public class Commentary {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((citizen == null) ? 0 : citizen.hashCode());
-		result = prime * result
-				+ ((creationDate == null) ? 0 : creationDate.hashCode());
-		result = prime * result
-				+ ((proposal == null) ? 0 : proposal.hashCode());
+		result = prime * result + ((proposal == null) ? 0 : proposal.hashCode());
 		return result;
 	}
 
@@ -136,11 +141,6 @@ public class Commentary {
 				return false;
 		} else if (!citizen.equals(other.citizen))
 			return false;
-		if (creationDate == null) {
-			if (other.creationDate != null)
-				return false;
-		} else if (!creationDate.equals(other.creationDate))
-			return false;
 		if (proposal == null) {
 			if (other.proposal != null)
 				return false;
@@ -148,5 +148,8 @@ public class Commentary {
 			return false;
 		return true;
 	}
+
+
+	
 
 }
