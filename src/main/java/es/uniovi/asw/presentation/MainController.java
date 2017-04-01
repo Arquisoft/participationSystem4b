@@ -141,7 +141,6 @@ public class MainController {
 		return new ModelAndView("nuevaPropuesta");
 	}
 	
-	// Se le llama al realizar login
 	@RequestMapping(path = "/crearPropuesta", method = RequestMethod.POST)
 	public ModelAndView crearPropuesta(@RequestParam("nombre") String nombre, @RequestParam("contenido") String contenido) {
 
@@ -152,5 +151,44 @@ public class MainController {
 				.findByStatus(EstadosPropuesta.EnTramite);
 		
 		return new ModelAndView("usuario").addObject("proposals", proposals);
+	}
+	
+	@RequestMapping(path = "/votarPositivo", method = RequestMethod.GET)
+	public ModelAndView votarPositivo(@RequestParam("idPropuesta") String idPropuesta) {
+
+		Proposal propuesta = factory.getServicesFactory().getProposalService().findById(Long.parseLong(idPropuesta));
+		System.out.println("Votando positivo - VotosA: " + propuesta.getValoration());
+		propuesta.positiveVote();
+		factory.getServicesFactory().getProposalService().update(propuesta);
+		comprobarNumeroVotos();
+		List<Proposal> proposals = factory.getServicesFactory().getProposalService()
+				.findByStatus(EstadosPropuesta.EnTramite);
+		System.out.println("Votando positivo - VotosB: " + propuesta.getValoration());
+		return new ModelAndView("usuario").addObject("proposals", proposals);
+	}
+	
+	@RequestMapping(path = "/votarNegativo", method = RequestMethod.GET)
+	public ModelAndView votarNegativo(@RequestParam("idPropuesta") String idPropuesta) {
+
+		Proposal propuesta = factory.getServicesFactory().getProposalService().findById(Long.parseLong(idPropuesta));				
+		System.out.println("Votando negativo - VotosA: " + propuesta.getValoration());
+		propuesta.negativeVote();	
+		comprobarNumeroVotos();
+		factory.getServicesFactory().getProposalService().update(propuesta);
+		List<Proposal> proposals = factory.getServicesFactory().getProposalService()
+				.findByStatus(EstadosPropuesta.EnTramite);	
+		System.out.println("Votando negativo - VotosA: " + propuesta.getValoration());
+		return new ModelAndView("usuario").addObject("proposals", proposals);
+	}
+	
+	private void comprobarNumeroVotos() {
+		List<Proposal> proposals = factory.getServicesFactory().getProposalService()
+				.findByStatus(EstadosPropuesta.EnTramite);
+		
+		for (Proposal proposal : proposals) {
+			if (proposal.getValoration() >= proposal.getMinVotes()) {
+				proposal.setStatus(EstadosPropuesta.Aceptada);
+			}
+		}
 	}
 }
