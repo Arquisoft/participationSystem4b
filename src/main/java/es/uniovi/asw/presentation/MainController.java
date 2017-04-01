@@ -100,8 +100,8 @@ public class MainController {
 			if (usuario != null) {
 				System.out.println(comment + " \nid de la propuesta: " + Long.toString(idPropuesta));
 				// Arreglar la parte del modelo
-				// factory.getServicesFactory().getCommentaryService().save(usuario.getId(),
-				// idPropuesta, comment);
+//				 factory.getServicesFactory().getCommentaryService().save(usuario.getId(),
+//						 idPropuesta, comment);
 				return comment(Long.toString(idPropuesta));
 			}
 		}
@@ -136,49 +136,60 @@ public class MainController {
 		return new ModelAndView("error");
 	}
 	
-	@RequestMapping(path = "/nuevaPropuesta", method = RequestMethod.GET)
+	@RequestMapping("/nuevaPropuesta")
 	public ModelAndView nuevaPropuesta() {
-		return new ModelAndView("nuevaPropuesta");
+		if( usuario != null){
+			return new ModelAndView("nuevaPropuesta");
+		}else{
+			return fail();
+		}
 	}
 	
 	@RequestMapping(path = "/crearPropuesta", method = RequestMethod.POST)
 	public ModelAndView crearPropuesta(@RequestParam("nombre") String nombre, @RequestParam("contenido") String contenido) {
-
-		Proposal propuesta = new Proposal(nombre, contenido, 1000);
-		
-		factory.getServicesFactory().getProposalService().save(propuesta);
-		List<Proposal> proposals = factory.getServicesFactory().getProposalService()
-				.findByStatus(EstadosPropuesta.EnTramite);
-		
-		return new ModelAndView("usuario").addObject("proposals", proposals);
+		if(usuario != null){
+			Proposal propuesta = new Proposal(nombre, contenido, 1000);
+			
+			factory.getServicesFactory().getProposalService().save(propuesta);
+			List<Proposal> proposals = factory.getServicesFactory().getProposalService()
+					.findByStatus(EstadosPropuesta.EnTramite);
+			
+			return new ModelAndView("usuario").addObject("proposals", proposals);
+		}else{
+			return fail();
+		}
 	}
 	
 	@RequestMapping(path = "/votarPositivo", method = RequestMethod.GET)
 	public ModelAndView votarPositivo(@RequestParam("idPropuesta") String idPropuesta) {
-
-		Proposal propuesta = factory.getServicesFactory().getProposalService().findById(Long.parseLong(idPropuesta));
-		System.out.println("Votando positivo - VotosA: " + propuesta.getValoration());
-		propuesta.positiveVote();
-		factory.getServicesFactory().getProposalService().update(propuesta);
-		comprobarNumeroVotos();
-		List<Proposal> proposals = factory.getServicesFactory().getProposalService()
-				.findByStatus(EstadosPropuesta.EnTramite);
-		System.out.println("Votando positivo - VotosB: " + propuesta.getValoration());
-		return new ModelAndView("usuario").addObject("proposals", proposals);
+		if(usuario != null){
+			Proposal propuesta = factory.getServicesFactory().getProposalService().findById(Long.parseLong(idPropuesta));
+			System.out.println("Votando positivo - VotosA: " + propuesta.getValoration());
+			propuesta.positiveVote();
+			factory.getServicesFactory().getProposalService().update(propuesta);
+			comprobarNumeroVotos();
+			List<Proposal> proposals = factory.getServicesFactory().getProposalService()
+					.findByStatus(EstadosPropuesta.EnTramite);
+			System.out.println("Votando positivo - VotosB: " + propuesta.getValoration());
+			return new ModelAndView("usuario").addObject("proposals", proposals);
+		}else
+			return fail();
 	}
 	
 	@RequestMapping(path = "/votarNegativo", method = RequestMethod.GET)
 	public ModelAndView votarNegativo(@RequestParam("idPropuesta") String idPropuesta) {
-
-		Proposal propuesta = factory.getServicesFactory().getProposalService().findById(Long.parseLong(idPropuesta));				
-		System.out.println("Votando negativo - VotosA: " + propuesta.getValoration());
-		propuesta.negativeVote();	
-		comprobarNumeroVotos();
-		factory.getServicesFactory().getProposalService().update(propuesta);
-		List<Proposal> proposals = factory.getServicesFactory().getProposalService()
-				.findByStatus(EstadosPropuesta.EnTramite);	
-		System.out.println("Votando negativo - VotosA: " + propuesta.getValoration());
-		return new ModelAndView("usuario").addObject("proposals", proposals);
+		if(usuario != null){
+			Proposal propuesta = factory.getServicesFactory().getProposalService().findById(Long.parseLong(idPropuesta));				
+			System.out.println("Votando negativo - VotosA: " + propuesta.getValoration());
+			propuesta.negativeVote();	
+			comprobarNumeroVotos();
+			factory.getServicesFactory().getProposalService().update(propuesta);
+			List<Proposal> proposals = factory.getServicesFactory().getProposalService()
+					.findByStatus(EstadosPropuesta.EnTramite);	
+			System.out.println("Votando negativo - VotosA: " + propuesta.getValoration());
+			return new ModelAndView("usuario").addObject("proposals", proposals);
+		}else 
+			return fail();
 	}
 	
 	private void comprobarNumeroVotos() {
@@ -192,27 +203,35 @@ public class MainController {
 		}
 	}
 	
-	@RequestMapping(path = "/propuestasTramite", method = RequestMethod.GET)
+	@RequestMapping("/propuestasTramite")
 	public ModelAndView propuestasTramite() {	
-		List<Proposal> proposals = factory.getServicesFactory().getProposalService()
-				.findByStatus(EstadosPropuesta.EnTramite);
-		return new ModelAndView("enTramite").addObject("proposals", proposals);
+		if(usuario != null){
+			List<Proposal> proposals = factory.getServicesFactory().getProposalService()
+					.findByStatus(EstadosPropuesta.EnTramite);
+			return new ModelAndView("enTramite").addObject("proposals", proposals);
+		}else
+			return fail();
 			
 	}
 	
-	@RequestMapping(path = "/propuestasRechazadas", method = RequestMethod.GET)
+	@RequestMapping("/propuestasRechazadas")
 	public ModelAndView propuestasRechazadas() {	
-		List<Proposal> proposals = factory.getServicesFactory().getProposalService()
-				.findByStatus(EstadosPropuesta.Rechazada);
-		return new ModelAndView("rechazadas").addObject("proposals", proposals);
+		if(usuario != null){
+			List<Proposal> proposals = factory.getServicesFactory().getProposalService()
+					.findByStatus(EstadosPropuesta.Rechazada);
+			return new ModelAndView("rechazadas").addObject("proposals", proposals);
+		}else
+			return fail();
 			
 	}
 	
-	@RequestMapping(path = "/propuestasAceptadas", method = RequestMethod.GET)
+	@RequestMapping("/propuestasAceptadas")
 	public ModelAndView propuestasAceptadas() {	
-		List<Proposal> proposals = factory.getServicesFactory().getProposalService()
-				.findByStatus(EstadosPropuesta.Aceptada);
-		return new ModelAndView("aceptadas").addObject("proposals", proposals);
-			
+		if(usuario != null){
+			List<Proposal> proposals = factory.getServicesFactory().getProposalService()
+					.findByStatus(EstadosPropuesta.Aceptada);
+			return new ModelAndView("aceptadas").addObject("proposals", proposals);
+		}else
+			return fail();
 	}
 }
