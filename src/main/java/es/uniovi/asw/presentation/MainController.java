@@ -100,8 +100,8 @@ public class MainController {
 			if (usuario != null) {
 				System.out.println(comment + " \nid de la propuesta: " + Long.toString(idPropuesta));
 				// Arreglar la parte del modelo
-//				 factory.getServicesFactory().getCommentaryService().save(usuario.getId(),
-//						 idPropuesta, comment);
+				// factory.getServicesFactory().getCommentaryService().save(usuario.getId(),
+				// idPropuesta, comment);
 				return comment(Long.toString(idPropuesta));
 			}
 		}
@@ -135,135 +135,147 @@ public class MainController {
 		idPropuesta = null;
 		return new ModelAndView("error");
 	}
-	
+
 	@RequestMapping("/nuevaPropuesta")
 	public ModelAndView nuevaPropuesta() {
-		if( usuario != null){
+		if (usuario != null) {
 			return new ModelAndView("nuevaPropuesta");
-		}else{
+		} else {
 			return fail();
 		}
 	}
-	
+
 	@RequestMapping(path = "/crearPropuesta", method = RequestMethod.POST)
-	public ModelAndView crearPropuesta(@RequestParam("nombre") String nombre, @RequestParam("contenido") String contenido) {
-		if(usuario != null){
+	public ModelAndView crearPropuesta(@RequestParam("nombre") String nombre,
+			@RequestParam("contenido") String contenido) {
+		if (usuario != null) {
 			Proposal propuesta = new Proposal(nombre, contenido, 1000);
-			
+
 			factory.getServicesFactory().getProposalService().save(propuesta);
 			List<Proposal> proposals = factory.getServicesFactory().getProposalService()
 					.findByStatus(EstadosPropuesta.EnTramite);
-			
+
 			return new ModelAndView("usuario").addObject("proposals", proposals);
-		}else{
+		} else {
 			return fail();
 		}
 	}
-	
+
 	@RequestMapping(path = "/votarPositivo", method = RequestMethod.GET)
 	public ModelAndView votarPositivo(@RequestParam("idPropuesta") String idPropuesta) {
-		if(usuario != null){
-			Proposal propuesta = factory.getServicesFactory().getProposalService().findById(Long.parseLong(idPropuesta));
-			System.out.println("Votando positivo - VotosA: " + propuesta.getValoration());
+		if (usuario != null) {
+			Proposal propuesta = factory.getServicesFactory().getProposalService()
+					.findById(Long.parseLong(idPropuesta));
 			propuesta.positiveVote();
 			factory.getServicesFactory().getProposalService().update(propuesta);
 			comprobarNumeroVotos();
 			List<Proposal> proposals = factory.getServicesFactory().getProposalService()
 					.findByStatus(EstadosPropuesta.EnTramite);
-			System.out.println("Votando positivo - VotosB: " + propuesta.getValoration());
 			return new ModelAndView("usuario").addObject("proposals", proposals);
-		}else
+		} else
 			return fail();
 	}
-	
+
 	@RequestMapping(path = "/votarNegativo", method = RequestMethod.GET)
 	public ModelAndView votarNegativo(@RequestParam("idPropuesta") String idPropuesta) {
-		if(usuario != null){
-			Proposal propuesta = factory.getServicesFactory().getProposalService().findById(Long.parseLong(idPropuesta));				
-			System.out.println("Votando negativo - VotosA: " + propuesta.getValoration());
-			propuesta.negativeVote();	
-			comprobarNumeroVotos();
+		if (usuario != null) {
+			Proposal propuesta = factory.getServicesFactory().getProposalService()
+					.findById(Long.parseLong(idPropuesta));
+			propuesta.negativeVote();			
 			factory.getServicesFactory().getProposalService().update(propuesta);
 			List<Proposal> proposals = factory.getServicesFactory().getProposalService()
-					.findByStatus(EstadosPropuesta.EnTramite);	
-			System.out.println("Votando negativo - VotosA: " + propuesta.getValoration());
+					.findByStatus(EstadosPropuesta.EnTramite);
 			return new ModelAndView("usuario").addObject("proposals", proposals);
-		}else 
+		} else
 			return fail();
 	}
-	
+
 	private void comprobarNumeroVotos() {
 		List<Proposal> proposals = factory.getServicesFactory().getProposalService()
 				.findByStatus(EstadosPropuesta.EnTramite);
-		
+
 		for (Proposal proposal : proposals) {
 			if (proposal.getValoration() >= proposal.getMinVotes()) {
 				proposal.setStatus(EstadosPropuesta.Aceptada);
 			}
 		}
 	}
-	
+
 	@RequestMapping("/propuestasTramite")
-	public ModelAndView propuestasTramite() {	
-		if(usuario != null){
+	public ModelAndView propuestasTramite() {
+		if (usuario != null) {
 			List<Proposal> proposals = factory.getServicesFactory().getProposalService()
 					.findByStatus(EstadosPropuesta.EnTramite);
-
-			if(usuario.isAdmin()){
-				if(proposals != null)
-					return new ModelAndView("enTramiteAdmin").addObject("proposals", proposals)
-						.addObject("hidden", false);
-				else
-					return new ModelAndView("enTramiteAdmin").addObject("hidden",true);
-			}else{
-				if(proposals != null){
-					return new ModelAndView("enTramite").addObject("proposals", proposals)
-						.addObject("hidden", false);
-				}else
-					return new ModelAndView("enTramite").addObject("hidden",true);
-			}
-		}else
-			return fail();
 			
+			if (usuario.isAdmin()) {
+				if (proposals != null)
+					return new ModelAndView("enTramiteAdmin").addObject("proposals", proposals).addObject("hidden",
+							false);
+				else
+					return new ModelAndView("enTramiteAdmin").addObject("hidden", true);
+			} else {
+				if (proposals != null) {
+					return new ModelAndView("enTramite").addObject("proposals", proposals).addObject("hidden", false);
+				} else
+					return new ModelAndView("enTramite").addObject("hidden", true);
+			}
+		} else
+			return fail();
+
 	}
-	
+
 	@RequestMapping("/propuestasRechazadas")
-	public ModelAndView propuestasRechazadas() {	
-		if(usuario != null){
+	public ModelAndView propuestasRechazadas() {
+		if (usuario != null) {
 			List<Proposal> proposals = factory.getServicesFactory().getProposalService()
 					.findByStatus(EstadosPropuesta.Rechazada);
-			if(usuario.isAdmin()){
-				if(proposals != null)
-					return new ModelAndView("rechazadas").addObject("proposals", proposals)
-						.addObject("hidden", true);
+			if (usuario.isAdmin()) {
+				if (proposals != null)
+					return new ModelAndView("rechazadas").addObject("proposals", proposals).addObject("hidden", true);
 				else
-					return new ModelAndView("rechazadas").addObject("hidden",false);
-			}else
-				return fail();	
-		}else
+					return new ModelAndView("rechazadas").addObject("hidden", false);
+			} else
+				return fail();
+		} else
 			return fail();
-			
+
 	}
-	
+
 	@RequestMapping("/propuestasAceptadas")
-	public ModelAndView propuestasAceptadas() {	
-		if(usuario != null){
+	public ModelAndView propuestasAceptadas() {
+		if (usuario != null) {
 			List<Proposal> proposals = factory.getServicesFactory().getProposalService()
 					.findByStatus(EstadosPropuesta.Aceptada);
-			if(usuario.isAdmin()){
-				if(proposals != null)
-					return new ModelAndView("aceptadasAdmin").addObject("proposals", proposals)
-						.addObject("hidden", true);
+			if (usuario.isAdmin()) {
+				if (proposals != null)
+					return new ModelAndView("aceptadasAdmin").addObject("proposals", proposals).addObject("hidden",
+							true);
 				else
-					return new ModelAndView("aceptadasAdmin").addObject("hidden",false);
-			}else{
-				if(proposals != null)
-					return new ModelAndView("aceptadas").addObject("proposals", proposals)
-						.addObject("hidden", true);
+					return new ModelAndView("aceptadasAdmin").addObject("hidden", false);
+			} else {
+				if (proposals != null)
+					return new ModelAndView("aceptadas").addObject("proposals", proposals).addObject("hidden", true);
 				else
-					return new ModelAndView("aceptadas").addObject("hidden",false);
+					return new ModelAndView("aceptadas").addObject("hidden", false);
 			}
-		}else
+		} else
+			return fail();
+	}
+	
+	@RequestMapping(path = "/rechazarPropuesta", method = RequestMethod.GET)
+	public ModelAndView rechazarPropuesta(@RequestParam("idPropuesta") String idPropuesta) {
+		if (usuario != null) {
+			Proposal propuesta = factory.getServicesFactory().getProposalService()
+					.findById(Long.parseLong(idPropuesta));
+			propuesta.setStatus(EstadosPropuesta.Rechazada);
+			
+			factory.getServicesFactory().getProposalService().update(propuesta);
+			List<Proposal> proposals = factory.getServicesFactory().getProposalService()
+					.findByStatus(EstadosPropuesta.EnTramite);
+			
+			return new ModelAndView("enTramiteAdmin").addObject("proposals", proposals).addObject("hidden",
+					false);
+		} else
 			return fail();
 	}
 }

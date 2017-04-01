@@ -23,7 +23,7 @@
 					<td th:text="${proposal.valoration}"></td>
 					<td th:text="${proposal.minVotes}"></td>
 					<td> 
-						<a href="#">rechazar</a>
+						<a th:href="@{/rechazarPropuesta(idPropuesta=${proposal.id})}">Rechazar</a>
 					</td>
 					<td> <a th:href="@{/comment(id=${proposal.id})}">ver</a></td>
 				</tr>
