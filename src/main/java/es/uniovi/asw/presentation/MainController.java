@@ -191,4 +191,28 @@ public class MainController {
 			}
 		}
 	}
+	
+	@RequestMapping(path = "/propuestasTramite", method = RequestMethod.GET)
+	public ModelAndView propuestasTramite() {	
+		List<Proposal> proposals = factory.getServicesFactory().getProposalService()
+				.findByStatus(EstadosPropuesta.EnTramite);
+		return new ModelAndView("enTramite").addObject("proposals", proposals);
+			
+	}
+	
+	@RequestMapping(path = "/propuestasRechazadas", method = RequestMethod.GET)
+	public ModelAndView propuestasRechazadas() {	
+		List<Proposal> proposals = factory.getServicesFactory().getProposalService()
+				.findByStatus(EstadosPropuesta.Rechazada);
+		return new ModelAndView("rechazadas").addObject("proposals", proposals);
+			
+	}
+	
+	@RequestMapping(path = "/propuestasAceptadas", method = RequestMethod.GET)
+	public ModelAndView propuestasAceptadas() {	
+		List<Proposal> proposals = factory.getServicesFactory().getProposalService()
+				.findByStatus(EstadosPropuesta.Aceptada);
+		return new ModelAndView("aceptadas").addObject("proposals", proposals);
+			
+	}
 }

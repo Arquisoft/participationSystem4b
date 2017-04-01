@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+	<head>
+		<head th:replace="plantillas/header :: head"></head>
+	</head>
+	<body>
+		<header th:replace="plantillas/header :: menuAdmin"></header>
+		<h1>Propuestas Rechazadas</h1>
+		
+		<table>
+				<thead>
+					<tr>
+						<th>Propuestas </th>						
+						<th>Descripción </th>
+					</tr>
+				</thead>
+				<tr th:each="proposal:${proposals}">
+					<td th:text="${proposal.name}"></td>
+					<td th:text="${proposal.content}"></td>
+				</tr>
+			</table>
+		
+	</body>
+</html>

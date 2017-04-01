@@ -12,9 +12,14 @@
 		</div>
 
 		<header class="header" th:fragment="menuAdmin">
-            <nav class="top_menu">
+             <nav class="top_menu">
                 <ul>
-                	<li><a href="/">Salir</a></li>
+                	<li><a href="/usuario">Inicio</a></li>
+                    <li><a th:href="@{/nuevaPropuesta}">Nueva propuesta</a></li>
+                    <li><a href="/propuestasTramite">Propuestas en trámite</a></li>
+                    <li><a href="/propuestasAceptadas">Propuestas aceptadas</a></li>
+                    <li><a href="/propuestasRechazadas">Propuestas rechazadas</a></li>
+                    <li><a href="/">Salir</a></li>
                 </ul>
             </nav>
         </header>
@@ -24,6 +29,9 @@
                 <ul>
                 	<li><a href="/usuario">Inicio</a></li>
                     <li><a th:href="@{/nuevaPropuesta}">Nueva propuesta</a></li>
+                    <li><a href="/propuestasTramite">Propuestas en trámite</a></li>
+                    <li><a href="/propuestasAceptadas">Propuestas aceptadas</a></li>
+                    <li><a href="/propuestasRechazadas">Propuestas rechazadas</a></li>
                     <li><a href="/">Salir</a></li>
                 </ul>
             </nav>
@@ -33,7 +41,10 @@
             <nav class="top_menu">
                 <ul>
                 	<li><a href="/usuario">Inicio</a></li>
-                    <li><a th:href="@{/crearComment(id=${id})}">Nuevo comentario</a></li>
+                    <li><a th:href="@{/nuevaPropuesta}">Nueva propuesta</a></li>
+                    <li><a href="/propuestasTramite">Propuestas en trámite</a></li>
+                    <li><a href="/propuestasAceptadas">Propuestas aceptadas</a></li>
+                    <li><a href="/propuestasRechazadas">Propuestas rechazadas</a></li>
                     <li><a href="/">Salir</a></li>
                 </ul>
             </nav>
