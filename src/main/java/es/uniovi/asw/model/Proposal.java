@@ -88,11 +88,11 @@ public class Proposal {
 		return new HashSet<Commentary>(comments);
 	}
 
-	Set<Commentary> _getComments() {
+	public Set<Commentary> _getComments() {
 		return comments;
 	}
 
-	void setComments(Set<Commentary> comments) {
+	public void setComments(Set<Commentary> comments) {
 		this.comments = comments;
 	}
 
@@ -136,7 +136,7 @@ public class Proposal {
 		return votes;
 	}
 
-	void setVotes(Set<Vote> votes) {
+	public void setVotes(Set<Vote> votes) {
 		this.votes = votes;
 	}
 

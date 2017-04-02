@@ -180,7 +180,7 @@ public class Citizen {
 		return comentarios;
 	}
 
-	void setComentarios(Set<Commentary> comentarios) {
+	public void setComentarios(Set<Commentary> comentarios) {
 		this.comentarios = comentarios;
 	}
 
@@ -200,7 +200,7 @@ public class Citizen {
 		return votes;
 	}
 
-	void setVotes(Set<Vote> votes) {
+	public void setVotes(Set<Vote> votes) {
 		this.votes = votes;
 	}
 

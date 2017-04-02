@@ -54,7 +54,7 @@ public class Vote {
 		return proposal;
 	}
 
-	void setProposal(Proposal proposal) {
+	public void setProposal(Proposal proposal) {
 		this.proposal = proposal;
 	}
 
@@ -62,7 +62,7 @@ public class Vote {
 		return votingDate;
 	}
 
-	void setVotingDate(Date votingDate) {
+	public void setVotingDate(Date votingDate) {
 		this.votingDate = votingDate;
 	}
 

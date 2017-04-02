@@ -48,8 +48,6 @@ public class ImprimeDatosComment {
 		this.date = date;
 	}
 
-	public ImprimeDatosComment(){}
-
 	@Override
 	public String toString() {
 		return "Comentario subido por " + nombre + "\n\t" + content + ".\n\t" + date ;
