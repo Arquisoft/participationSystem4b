@@ -2,6 +2,7 @@ package es.uniovi.asw.persistence;
 
 import es.uniovi.asw.model.Commentary;
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -19,4 +20,7 @@ public interface CommentaryRepository extends JpaRepository<Commentary, Long> {
 
 	@Query("Select c from Commentary c where c.proposal.id=?1 and c.status='Correcto'")
 	List<Commentary> findByPorposal(long id);
+	
+	@Query("Select c from Commentary c where c.creationDate=?1")
+	Commentary findByCreationDate(Date date);
 }

@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -51,5 +52,17 @@ public class CommentaryServiceImpl implements CommentaryService {
 	@Override
 	public List<Commentary> findByProposal(long id) {
 		return comentarioRepository.findByPorposal(id);
+	}
+
+	@Override
+	public Commentary findByCreationDate(Date date) {
+		// TODO Auto-generated method stub
+		return comentarioRepository.findByCreationDate(date);
+	}
+
+	@Override
+	public void update(Commentary comentario) {
+		// TODO Auto-generated method stub
+		comentarioRepository.save(comentario);
 	}
 }

@@ -5,7 +5,25 @@ public class ImprimeDatosComment {
 	private String nombre;
 	private String content;
 	private String date;
+	private String idComment;
+	private String status;
 	
+	public String getStatus() {
+		return status;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
+	}
+
+	public String getIdComment() {
+		return idComment;
+	}
+
+	public void setIdComment(String idComment) {
+		this.idComment = idComment;
+	}
+
 	public String getNombre() {
 		return nombre;
 	}

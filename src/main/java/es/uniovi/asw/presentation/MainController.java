@@ -1,7 +1,10 @@
 package es.uniovi.asw.presentation;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
@@ -19,6 +22,7 @@ import org.thymeleaf.context.IContext;
 import es.uniovi.asw.conf.Factories;
 import es.uniovi.asw.model.Citizen;
 import es.uniovi.asw.model.Commentary;
+import es.uniovi.asw.model.EstadosComentario;
 import es.uniovi.asw.model.EstadosPropuesta;
 import es.uniovi.asw.model.Proposal;
 import es.uniovi.asw.model.ImprimeDatosComment;
@@ -73,32 +77,87 @@ public class MainController {
 			return fail();
 	}
 
+	@SuppressWarnings("unused")
 	@RequestMapping(path = "/comment", method = RequestMethod.GET)
 	public ModelAndView comment(@RequestParam String id) {
 		if (usuario != null) {
 			List<Commentary> commentaries = factory.getServicesFactory().getCommentaryService()
 					.findByProposal(Long.parseLong(id));
+			this.idPropuesta = Long.parseLong(id);
+			List<ImprimeDatosComment> imp = null;		
 			
-			if (commentaries != null){		
-				List<ImprimeDatosComment> imp = new ArrayList<ImprimeDatosComment>();
+			if(usuario.isAdmin()){
+				commentaries = factory.getServicesFactory().getCommentaryService()
+						.findAll();
+				imp = new ArrayList<ImprimeDatosComment>();
 				for(int i = 0; i < commentaries.size(); i++){
 					ImprimeDatosComment imprime = new ImprimeDatosComment();
 					imprime.setContent(commentaries.get(i).getContent());
 					imprime.setNombre(factory.getServicesFactory().getCitizenService()
-							.findById(commentaries.get(i).getProposal().getId()).getNombre());
+							.findById(commentaries.get(i).getCitizen().getId()).getNombre());
 					imprime.setDate(commentaries.get(i).getCreationDate().toString());
+					imprime.setStatus(commentaries.get(i).getEstado().toString());
+					imprime.setIdComment(commentaries.get(i).getCreationDate().toString());
 					
 					imp.add( imprime );
 				}
 				
-				return new ModelAndView("comment").addObject("commentaries", commentaries).addObject("hidden", false)
+				if(commentaries != null)
+					return new ModelAndView("commentAdmin").addObject("commentaries", commentaries).addObject("hidden", false)
 						.addObject("id", id).addObject("datos", imp);
-			}else
-				return new ModelAndView("comment").addObject("hidden", true).addObject("id", id);
+				else
+					return new ModelAndView("commentAdmin").addObject("hidden", true).addObject("id", id);
+				
+			}
+			else {
+				commentaries = factory.getServicesFactory().getCommentaryService()
+						.findByProposal(Long.parseLong(id));
+				imp = new ArrayList<ImprimeDatosComment>();
+				for(int i = 0; i < commentaries.size(); i++){
+					ImprimeDatosComment imprime = new ImprimeDatosComment();
+					imprime.setContent(commentaries.get(i).getContent());
+					imprime.setNombre(factory.getServicesFactory().getCitizenService()
+							.findById(commentaries.get(i).getCitizen().getId()).getNombre());
+					imprime.setDate(commentaries.get(i).getCreationDate().toString());
+					imprime.setIdComment(commentaries.get(i).getCreationDate().toString());
+					
+					imp.add( imprime );
+				}
+				
+				if(commentaries != null)
+					return new ModelAndView("comment").addObject("commentaries", commentaries).addObject("hidden", false)
+						.addObject("id", id).addObject("datos", imp);
+				else 
+					return new ModelAndView("comment").addObject("hidden", true).addObject("id", id);
+			}
+			
 		} else
 			return fail();
 	}
 
+	@RequestMapping(path = "/censurar", method = RequestMethod.GET)
+	public ModelAndView censurar(@RequestParam("id") String idComment) {
+		if (usuario != null) {
+			SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+			Date fec = null;
+			try {
+				
+				fec = formato.parse(idComment);
+			} catch (ParseException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			Commentary comentario = factory.getServicesFactory().getCommentaryService()
+					.findByCreationDate(fec);
+			comentario.setEstado(EstadosComentario.Censurado);
+			factory.getServicesFactory().getCommentaryService().update(comentario);
+			
+			return comment(idPropuesta.toString());
+		} else {
+			return fail();
+		}
+	}
+	
 	// Cuando en el menu de comments pulsamos en añadir un nuevo comentario
 	@RequestMapping(path = "/crearComment", method = RequestMethod.GET)
 	public ModelAndView crearComment(@RequestParam("id") String id) {
@@ -226,7 +285,7 @@ public class MainController {
 			if (usuario.isAdmin()) {
 				if (proposals != null)
 					return new ModelAndView("enTramiteAdmin").addObject("proposals", proposals).addObject("hidden",
-							false);
+							false).addObject("id", idPropuesta);
 				else
 					return new ModelAndView("enTramiteAdmin").addObject("hidden", true);
 			} else {
