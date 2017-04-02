@@ -178,8 +178,12 @@ public class MainController {
 			Proposal propuesta = factory.getServicesFactory().getProposalService()
 					.findById(Long.parseLong(idPropuesta));
 			propuesta.positiveVote();
+
+			if (propuesta.getValoration() >= propuesta.getMinVotes()) {
+				propuesta.setStatus(EstadosPropuesta.Aceptada);
+			}
+			
 			factory.getServicesFactory().getProposalService().update(propuesta);
-			comprobarNumeroVotos();
 			List<Proposal> proposals = factory.getServicesFactory().getProposalService()
 					.findByStatus(EstadosPropuesta.EnTramite);
 			return new ModelAndView("usuario").addObject("proposals", proposals);
@@ -199,17 +203,6 @@ public class MainController {
 			return new ModelAndView("usuario").addObject("proposals", proposals);
 		} else
 			return fail();
-	}
-
-	private void comprobarNumeroVotos() {
-		List<Proposal> proposals = factory.getServicesFactory().getProposalService()
-				.findByStatus(EstadosPropuesta.EnTramite);
-
-		for (Proposal proposal : proposals) {
-			if (proposal.getValoration() >= proposal.getMinVotes()) {
-				proposal.setStatus(EstadosPropuesta.Aceptada);
-			}
-		}
 	}
 
 	@RequestMapping("/propuestasTramite")
