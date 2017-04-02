@@ -51,6 +51,9 @@ public class Citizen {
 
 	@OneToMany(mappedBy = "citizen", fetch = FetchType.EAGER)
 	private Set<Commentary> comentarios = new HashSet<Commentary>();
+	
+	@OneToMany(mappedBy = "citizen", fetch = FetchType.EAGER)
+	private Set<Vote> votes = new HashSet<Vote>();
 
 	Citizen() {
 	}
@@ -184,6 +187,18 @@ public class Citizen {
 
 	public void setAdmin(boolean isAdmin) {
 		this.isAdmin = isAdmin;
+	}
+
+	public Set<Vote> getVotes() {
+		return new HashSet<Vote>(votes);
+	}
+
+	public Set<Vote> _getVotes() {
+		return votes;
+	}
+	
+	void setVotes(Set<Vote> votes) {
+		this.votes = votes;
 	}
 
 	@Override

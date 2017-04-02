@@ -30,6 +30,9 @@ public class Proposal {
 
 	@Enumerated(EnumType.STRING)
 	private EstadosPropuesta status;
+	
+	@OneToMany(mappedBy = "proposal", fetch = FetchType.EAGER)
+	private Set<Vote> votes = new HashSet<Vote>();
 
 	public Proposal() {
 	}
@@ -120,6 +123,18 @@ public class Proposal {
 
 	public void insertComment(Commentary comment) {
 		this.comments.add(comment);
+	}
+
+	public Set<Vote> getVotes() {
+		return new HashSet<Vote>(votes);
+	}
+	
+	public Set<Vote> _getVotes() {
+		return votes;
+	}
+
+	void setVotes(Set<Vote> votes) {
+		this.votes = votes;
 	}
 
 	@Override

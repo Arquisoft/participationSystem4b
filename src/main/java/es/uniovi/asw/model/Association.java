@@ -17,4 +17,22 @@ public class Association {
 			comentario.setProposal(null);
 		}
 	}
+	
+	public static class Vota {
+		public static void link(Citizen citizen, Vote vote, Proposal proposal) {
+			vote.setCitizen(citizen);
+			vote.setProposal(proposal);
+			citizen.getVotes().add(vote);
+			proposal.getVotes().add(vote);
+		}
+		
+		public static void unlink(Vote vote) {
+			vote.getCitizen().getVotes().remove(vote);
+			vote.getProposal().getVotes().remove(vote);
+			vote.setCitizen(null);
+			vote.setProposal(null);
+		}
+
+	}
+
 }
