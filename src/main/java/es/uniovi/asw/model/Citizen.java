@@ -47,11 +47,9 @@ public class Citizen {
 
 	private boolean isAdmin;
 
-	private Calendar calendar = GregorianCalendar.getInstance();
-
 	@OneToMany(mappedBy = "citizen", fetch = FetchType.EAGER)
 	private Set<Commentary> comentarios = new HashSet<Commentary>();
-	
+
 	@OneToMany(mappedBy = "citizen", fetch = FetchType.EAGER)
 	private Set<Vote> votes = new HashSet<Vote>();
 
@@ -75,8 +73,8 @@ public class Citizen {
 	public Long getId() {
 		return id;
 	}
-	
-	public void setId(Long id){
+
+	public void setId(Long id) {
 		this.id = id;
 	}
 
@@ -110,6 +108,7 @@ public class Citizen {
 
 	public void setFechaNacimiento(Date fechaNacimiento)
 			throws CitizenException {
+		Calendar calendar = GregorianCalendar.getInstance();
 		try {
 			if (fechaNacimiento.before(calendar.getTime()))
 				this.fechaNacimiento = fechaNacimiento;
@@ -150,14 +149,15 @@ public class Citizen {
 		return password;
 	}
 
-	public void setPassword(String password) throws NoSuchAlgorithmException,
-			CitizenException {
+	public void setPassword(String password)
+			throws NoSuchAlgorithmException, CitizenException {
 		this.password = new EncryptMD5().encrypting(password);
 	}
 
-	private String generarPassword() throws NoSuchAlgorithmException,
-			CitizenException {
+	private String generarPassword()
+			throws NoSuchAlgorithmException, CitizenException {
 		String password = "";
+		Calendar calendar = GregorianCalendar.getInstance();
 		Random r = new Random(calendar.getTimeInMillis());
 		int i = 0;
 
@@ -196,7 +196,7 @@ public class Citizen {
 	public Set<Vote> _getVotes() {
 		return votes;
 	}
-	
+
 	void setVotes(Set<Vote> votes) {
 		this.votes = votes;
 	}
@@ -207,8 +207,8 @@ public class Citizen {
 				+ apellidos + ", email=" + email + ", fechaNacimiento="
 				+ fechaNacimiento + ", residencia=" + residencia
 				+ ", nacionalidad=" + nacionalidad + ", dni=" + dni
-				+ ", password=" + password + ", calendar=" + calendar
-				+ ", comentarios=" + comentarios + "]";
+				+ ", password=" + password + ", isAdmin=" + isAdmin
+				+ ", comentarios=" + comentarios + ", votes=" + votes + "]";
 	}
 
 	@Override
@@ -235,8 +235,5 @@ public class Citizen {
 			return false;
 		return true;
 	}
-
-
-	
 
 }
