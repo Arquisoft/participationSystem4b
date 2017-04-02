@@ -16,7 +16,7 @@ public interface CommentaryRepository extends JpaRepository<Commentary, Long> {
 	Commentary findByDni(String dni);
 	
 	@Query("Select c from Commentary c where c.proposal.id=?1")
-	Commentary findByProposalId(long id);
+	List<Commentary> findByProposalId(long id);
 
 	@Query("Select c from Commentary c where c.proposal.id=?1 and c.status='Correcto'")
 	List<Commentary> findByPorposal(long id);

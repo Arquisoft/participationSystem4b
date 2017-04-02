@@ -2,11 +2,7 @@ package es.uniovi.asw.presentation;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -16,8 +12,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
-import org.thymeleaf.context.Context;
-import org.thymeleaf.context.IContext;
 
 import es.uniovi.asw.conf.Factories;
 import es.uniovi.asw.model.Citizen;
@@ -83,12 +77,13 @@ public class MainController {
 		if (usuario != null) {
 			List<Commentary> commentaries = factory.getServicesFactory().getCommentaryService()
 					.findByProposal(Long.parseLong(id));
+
 			this.idPropuesta = Long.parseLong(id);
 			List<ImprimeDatosComment> imp = null;		
 			
 			if(usuario.isAdmin()){
 				commentaries = factory.getServicesFactory().getCommentaryService()
-						.findAll();
+						.findByProposalId(idPropuesta);
 				imp = new ArrayList<ImprimeDatosComment>();
 				for(int i = 0; i < commentaries.size(); i++){
 					ImprimeDatosComment imprime = new ImprimeDatosComment();
@@ -107,9 +102,9 @@ public class MainController {
 						.addObject("id", id).addObject("datos", imp);
 				else
 					return new ModelAndView("commentAdmin").addObject("hidden", true).addObject("id", id);
+			
 				
-			}
-			else {
+			}else {
 				commentaries = factory.getServicesFactory().getCommentaryService()
 						.findByProposal(Long.parseLong(id));
 				imp = new ArrayList<ImprimeDatosComment>();
@@ -119,18 +114,16 @@ public class MainController {
 					imprime.setNombre(factory.getServicesFactory().getCitizenService()
 							.findById(commentaries.get(i).getCitizen().getId()).getNombre());
 					imprime.setDate(commentaries.get(i).getCreationDate().toString());
-					imprime.setIdComment(commentaries.get(i).getCreationDate().toString());
-					
-					imp.add( imprime );
+
+					imp.add(imprime);
 				}
-				
+
 				if(commentaries != null)
 					return new ModelAndView("comment").addObject("commentaries", commentaries).addObject("hidden", false)
 						.addObject("id", id).addObject("datos", imp);
-				else 
+				else
 					return new ModelAndView("comment").addObject("hidden", true).addObject("id", id);
 			}
-			
 		} else
 			return fail();
 	}
@@ -242,8 +235,12 @@ public class MainController {
 			Proposal propuesta = factory.getServicesFactory().getProposalService()
 					.findById(Long.parseLong(idPropuesta));
 			propuesta.positiveVote();
+
+			if (propuesta.getValoration() >= propuesta.getMinVotes()) {
+				propuesta.setStatus(EstadosPropuesta.Aceptada);
+			}
+			
 			factory.getServicesFactory().getProposalService().update(propuesta);
-			comprobarNumeroVotos();
 			List<Proposal> proposals = factory.getServicesFactory().getProposalService()
 					.findByStatus(EstadosPropuesta.EnTramite);
 			return new ModelAndView("usuario").addObject("proposals", proposals);
@@ -263,17 +260,6 @@ public class MainController {
 			return new ModelAndView("usuario").addObject("proposals", proposals);
 		} else
 			return fail();
-	}
-
-	private void comprobarNumeroVotos() {
-		List<Proposal> proposals = factory.getServicesFactory().getProposalService()
-				.findByStatus(EstadosPropuesta.EnTramite);
-
-		for (Proposal proposal : proposals) {
-			if (proposal.getValoration() >= proposal.getMinVotes()) {
-				proposal.setStatus(EstadosPropuesta.Aceptada);
-			}
-		}
 	}
 
 	@RequestMapping("/propuestasTramite")
@@ -324,14 +310,14 @@ public class MainController {
 			if (usuario.isAdmin()) {
 				if (proposals != null)
 					return new ModelAndView("aceptadasAdmin").addObject("proposals", proposals).addObject("hidden",
-							true);
+							false);
 				else
-					return new ModelAndView("aceptadasAdmin").addObject("hidden", false);
+					return new ModelAndView("aceptadasAdmin").addObject("hidden", true);
 			} else {
 				if (proposals != null)
-					return new ModelAndView("aceptadas").addObject("proposals", proposals).addObject("hidden", true);
+					return new ModelAndView("aceptadas").addObject("proposals", proposals).addObject("hidden", false);
 				else
-					return new ModelAndView("aceptadas").addObject("hidden", false);
+					return new ModelAndView("aceptadas").addObject("hidden", true);
 			}
 		} else
 			return fail();
@@ -343,6 +329,23 @@ public class MainController {
 			Proposal propuesta = factory.getServicesFactory().getProposalService()
 					.findById(Long.parseLong(idPropuesta));
 			propuesta.setStatus(EstadosPropuesta.Rechazada);
+
+			factory.getServicesFactory().getProposalService().update(propuesta);
+			List<Proposal> proposals = factory.getServicesFactory().getProposalService()
+					.findByStatus(EstadosPropuesta.EnTramite);
+
+			return new ModelAndView("enTramiteAdmin").addObject("proposals", proposals).addObject("hidden", false);
+		} else
+			return fail();
+	}
+
+	@RequestMapping(path = "/modificarMinVotes", method = RequestMethod.POST)
+	public ModelAndView modificarMinVotes(@RequestParam("minVotes") int minVotes,
+			@RequestParam("idPropuesta") String idPropuesta) {
+		if (usuario != null) {
+			Proposal propuesta = factory.getServicesFactory().getProposalService()
+					.findById(Long.parseLong(idPropuesta));
+			propuesta.setMinVotes(minVotes);
 
 			factory.getServicesFactory().getProposalService().update(propuesta);
 			List<Proposal> proposals = factory.getServicesFactory().getProposalService()

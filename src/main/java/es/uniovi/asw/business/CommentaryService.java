@@ -20,4 +20,6 @@ public interface CommentaryService {
 	public List<Commentary> findByProposal(long id);
 
 	public void update(Commentary comentario);
+
+	public List<Commentary> findByProposalId(Long idPropuesta);
 }

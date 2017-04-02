@@ -65,4 +65,10 @@ public class CommentaryServiceImpl implements CommentaryService {
 		// TODO Auto-generated method stub
 		comentarioRepository.save(comentario);
 	}
+
+	@Override
+	public List<Commentary> findByProposalId(Long idPropuesta) {
+		// TODO Auto-generated method stub
+		return comentarioRepository.findByProposalId(idPropuesta);
+	}
 }
