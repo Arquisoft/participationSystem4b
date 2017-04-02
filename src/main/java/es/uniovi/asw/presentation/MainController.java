@@ -19,6 +19,7 @@ import es.uniovi.asw.model.Commentary;
 import es.uniovi.asw.model.EstadosComentario;
 import es.uniovi.asw.model.EstadosPropuesta;
 import es.uniovi.asw.model.Proposal;
+import es.uniovi.asw.producers.KafkaProducer;
 import es.uniovi.asw.model.ImprimeDatosComment;
 
 /**
@@ -30,6 +31,10 @@ public class MainController {
 	@Autowired
 	private Factories factory;
 
+
+    @Autowired
+    private KafkaProducer kafkaProducer;
+    
 	private Citizen usuario;
 
 	// Con este id controlo la propuesta en la que estoy cuando se navega entre
@@ -48,6 +53,8 @@ public class MainController {
 		// Cerramos sesion usuario a null y lo mandamos al landing
 		// Aunque tambien se inicializa al principio
 		usuario = null;
+		kafkaProducer.send("logout", "El usuario cerro sesion correctamente"
+				+ " o es la primera vez que entrea");
 		return "landing";
 	}
 
@@ -61,22 +68,26 @@ public class MainController {
 
 		if (usuario != null) {
 			if (usuario.isAdmin()) {
+				kafkaProducer.send("admin", "El administrador del sistema se ha logueado");
 				return new ModelAndView("admin"); // la contraseña de admin es
 			} else {
 				List<Proposal> proposals = factory.getServicesFactory().getProposalService()
 						.findByStatus(EstadosPropuesta.EnTramite);
+				kafkaProducer.send("user", "El usuario " +usuario.getNombre() + " se ha logueado");
 				return new ModelAndView("usuario").addObject("proposals", proposals);
 			}
-		} else
-			return fail();
+		} else{
+			kafkaProducer.send("login", "Usuario o contraseña incorrectos");
+			return new ModelAndView("landing").addObject("hidden", true)
+					.addObject("mensaje","Usuario o contraseña invalido.");
+		}
 	}
 
 	@SuppressWarnings("unused")
 	@RequestMapping(path = "/comment", method = RequestMethod.GET)
 	public ModelAndView comment(@RequestParam String id) {
 		if (usuario != null) {
-			List<Commentary> commentaries = factory.getServicesFactory().getCommentaryService()
-					.findByProposal(Long.parseLong(id));
+			List<Commentary> commentaries = null;
 
 			this.idPropuesta = Long.parseLong(id);
 			List<ImprimeDatosComment> imp = null;		
@@ -97,11 +108,14 @@ public class MainController {
 					imp.add( imprime );
 				}
 				
-				if(commentaries != null)
+				if(commentaries != null){
+					kafkaProducer.send("admin", "La propuesta seleccionada tiene comentarios");
 					return new ModelAndView("commentAdmin").addObject("commentaries", commentaries).addObject("hidden", false)
 						.addObject("id", id).addObject("datos", imp);
-				else
+				}else{
+					kafkaProducer.send("admin", "La propuesta seleccionada no tiene comentarios");
 					return new ModelAndView("commentAdmin").addObject("hidden", true).addObject("id", id);
+				}
 			
 				
 			}else {
@@ -118,14 +132,19 @@ public class MainController {
 					imp.add(imprime);
 				}
 
-				if(commentaries != null)
+				if(commentaries != null){
+					kafkaProducer.send("user", "La propuesta seleccionada tiene comentarios");
 					return new ModelAndView("comment").addObject("commentaries", commentaries).addObject("hidden", false)
 						.addObject("id", id).addObject("datos", imp);
-				else
+				}else{
+					kafkaProducer.send("user", "La propuesta seleccionada no tiene comentarios");
 					return new ModelAndView("comment").addObject("hidden", true).addObject("id", id);
+				}
 			}
-		} else
+		} else{
+			kafkaProducer.send("login", "No existe usuario en sesion");
 			return fail();
+		}
 	}
 
 	@RequestMapping(path = "/censurar", method = RequestMethod.GET)
@@ -145,8 +164,10 @@ public class MainController {
 			comentario.setEstado(EstadosComentario.Censurado);
 			factory.getServicesFactory().getCommentaryService().update(comentario);
 			
+			kafkaProducer.send("admin", "El administrador censuro este comentario: " + comentario.getContent());
 			return comment(idPropuesta.toString());
 		} else {
+			kafkaProducer.send("login", "No existe el usuario en sesion");
 			return fail();
 		}
 	}
@@ -156,8 +177,10 @@ public class MainController {
 	public ModelAndView crearComment(@RequestParam("id") String id) {
 		if (usuario != null) {
 			this.idPropuesta = Long.parseLong(id);
+			kafkaProducer.send("user", "Cargando formulario para crear comentario");
 			return new ModelAndView("crearComment").addObject("hidden", false);
 		} else {
+			kafkaProducer.send("login", "El usuario no existe en sesion");
 			return fail();
 		}
 	}
@@ -169,11 +192,13 @@ public class MainController {
 			System.out.println(comment + " \nid de la propuesta: " + Long.toString(idPropuesta));
 			// Arreglar la parte del modelo
 			factory.getServicesFactory().getCommentaryService().save(usuario.getId(), idPropuesta, comment);
-
+			kafkaProducer.send("user", "El comentario se añadio correctamente");
 			return comment(Long.toString(idPropuesta));
 
+		}else{
+			kafkaProducer.send("login", "El usuario no existe en sesion");
+			return fail();
 		}
-		return fail();
 	}
 
 	// Aqui solo llamamos cuando queramos que vaya hacia atras, es decir,
@@ -182,6 +207,7 @@ public class MainController {
 	public ModelAndView backUser() {
 		if (usuario != null) {
 			if (usuario.isAdmin()) {
+				kafkaProducer.send("admin", "El administrador volvio a su pagina principal");
 				return new ModelAndView("admin");
 			} else {
 				idPropuesta = null; // cuando se pulsa en incio reseteo el id de
@@ -189,9 +215,12 @@ public class MainController {
 									// incorrecta
 				List<Proposal> proposals = factory.getServicesFactory().getProposalService()
 						.findByStatus(EstadosPropuesta.EnTramite);
+				kafkaProducer.send("user", "El usuario " + usuario.getNombre() 
+					+ " volvio a su pagina principal");
 				return new ModelAndView("usuario").addObject("proposals", proposals);
 			}
 		} else {
+			kafkaProducer.send("login", "El usuario no existe en sesion");
 			return fail();
 		}
 	}
@@ -201,6 +230,7 @@ public class MainController {
 	public ModelAndView fail() {
 		usuario = null;
 		idPropuesta = null;
+		kafkaProducer.send("fail", "Por algun motivo algo fallo");
 		return new ModelAndView("error");
 	}
 
