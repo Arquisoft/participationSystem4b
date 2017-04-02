@@ -33,11 +33,11 @@ public class PruebaTest {
 
 	@Test
 	public void test() throws Throwable {
-		the_user_is_on_the_login_page();
-		the_user_is_logger_on_as_admin();
-		the_user_is_on_the_admin_main_page();
-		the_user_clicks_on_the_button("Propuestas en trámite");
-		the_proposals_are_in_process_will_be_shown_to_the_user();
+		theUserIsOnTheLoginPage();
+		theUserIsLoggerOnAsAdmin();
+		theUserIsOnTheAdminMainPage();
+		theUserClicksOnTheButton("Propuestas en trámite");
+		theProposalsAreInProcessWillBeShownToTheUser();
 	}
 
 	@After
@@ -50,7 +50,7 @@ public class PruebaTest {
 	}
 
 	@Given("^the user is on the login page$")
-	public void the_user_is_on_the_login_page() throws Throwable {
+	public void theUserIsOnTheLoginPage() throws Throwable {
 		driver.get(baseUrl + "/");
 		sU.comprobarTexto("titulo", "Participation System");
 		assertTrue(sU.isElementPresent(By.id("dniLabel")));
@@ -64,7 +64,7 @@ public class PruebaTest {
 	}
 
 	@Given("^the user is logger on as admin$")
-	public void the_user_is_logger_on_as_admin() throws Throwable {
+	public void theUserIsLoggerOnAsAdmin() throws Throwable {
 		driver.findElement(By.name("dni")).clear();
 		driver.findElement(By.name("dni")).sendKeys("666xxx");
 		driver.findElement(By.name("password")).clear();
@@ -74,20 +74,20 @@ public class PruebaTest {
 	}
 
 	@Given("^the user is on the admin main page$")
-	public void the_user_is_on_the_admin_main_page() throws Throwable {
+	public void theUserIsOnTheAdminMainPage() throws Throwable {
 		sU.comprobarNumElemetos("body", "./*", 1);
 		sU.comprobarCabeceraAdmin();
 
 	}
 
 	@When("^the user clicks on the button \"([^\"]*)\"$")
-	public void the_user_clicks_on_the_button(String arg1) throws Throwable {
+	public void theUserClicksOnTheButton(String arg1) throws Throwable {
 		sU.comprobarCabeceraAdmin();
 		driver.findElement(By.linkText(arg1)).click();
 	}
 
 	@Then("^the proposals are in process will be shown to the user$")
-	public void the_proposals_are_in_process_will_be_shown_to_the_user()
+	public void theProposalsAreInProcessWillBeShownToTheUser()
 			throws Throwable {
 		sU.comprobarCabeceraAdmin();
 		sU.comprobarNumElemetos("body", "./*", 3);
