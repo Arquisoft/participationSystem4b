@@ -8,7 +8,7 @@
 		<h1>Propuestas en trÃ¡mite</h1>
 		
 		<h3 th:if="${hidden}">Todavia no se creo ninguna propuesta.</h3>
-		<table th:if="${not hidden}">
+		<table th:if="${not hidden}" border="1">
 				<thead>
 					<tr>
 						<th>Propuestas </th>				
@@ -16,6 +16,7 @@
 						<th>Votos para ser aceptada </th>
 						<th>Opcion </th>
 						<th>Comentarios </th>
+						<th>Modificar Número Mínimo de votos </th>
 					</tr>
 				</thead>
 				<tr th:each="proposal:${proposals}">
@@ -25,7 +26,15 @@
 					<td> 
 						<a th:href="@{/rechazarPropuesta(idPropuesta=${proposal.id})}">Rechazar</a>
 					</td>
-					<td> <a th:href="@{/comment(id=${proposal.id})}">ver</a></td>
+					<td> <a th:href="@{/comment(id=${proposal.id})}">Ver comentarios</a></td>
+					<td> 
+						<form th:action="@{/modificarMinVotes}" method="POST">
+						<input name="idPropuesta" type="hidden" th:value="${proposal.id}"/>
+					    <input id="minVotes" name="minVotes" type="number" th:value="${proposal.minVotes}"/>
+					    <input type="submit" value="Modificar" />
+						</form>
+					</td>
+					
 				</tr>
 			</table>
 		
