@@ -31,7 +31,6 @@ public class MainController {
 	@Autowired
 	private Factories factory;
 
-
     @Autowired
     private KafkaProducer kafkaProducer;
     
