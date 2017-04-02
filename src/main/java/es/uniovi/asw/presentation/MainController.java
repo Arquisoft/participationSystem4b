@@ -231,8 +231,7 @@ public class MainController {
 		usuario = null;
 		idPropuesta = null;
 		kafkaProducer.send("fail", "Por algun motivo algo fallo");
-		return new ModelAndView("error");
-		
+		return new ModelAndView("error");		
 	}
 
 	@RequestMapping("/nuevaPropuesta")
