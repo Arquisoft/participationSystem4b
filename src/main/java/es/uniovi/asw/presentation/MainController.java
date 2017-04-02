@@ -1,5 +1,8 @@
 package es.uniovi.asw.presentation;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,12 +13,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
+import org.thymeleaf.context.Context;
+import org.thymeleaf.context.IContext;
 
 import es.uniovi.asw.conf.Factories;
 import es.uniovi.asw.model.Citizen;
 import es.uniovi.asw.model.Commentary;
 import es.uniovi.asw.model.EstadosPropuesta;
 import es.uniovi.asw.model.Proposal;
+import es.uniovi.asw.model.Prueba;
 
 /**
  * Acceso web
@@ -72,18 +78,30 @@ public class MainController {
 		if (usuario != null) {
 			List<Commentary> commentaries = factory.getServicesFactory().getCommentaryService()
 					.findByProposal(Long.parseLong(id));
-			if (commentaries != null)
-				return new ModelAndView("comment").addObject("commentaries", commentaries).addObject("hidden", true)
-						.addObject("id", id);
-			else
-				return new ModelAndView("comment").addObject("hidden", false).addObject("id", id);
+			
+			if (commentaries != null){		
+				List<Prueba> imp = new ArrayList<Prueba>();
+				for(int i = 0; i < commentaries.size(); i++){
+					Prueba imprime = new Prueba();
+					imprime.setContent(commentaries.get(i).getContent());
+					imprime.setNombre(factory.getServicesFactory().getCitizenService()
+							.findById(commentaries.get(i).getProposal().getId()).getNombre());
+					imprime.setDate(commentaries.get(i).getCreationDate().toString());
+					
+					imp.add( imprime );
+				}
+				
+				return new ModelAndView("comment").addObject("commentaries", commentaries).addObject("hidden", false)
+						.addObject("id", id).addObject("datos", imp);
+			}else
+				return new ModelAndView("comment").addObject("hidden", true).addObject("id", id);
 		} else
 			return fail();
 	}
 
 	// Cuando en el menu de comments pulsamos en añadir un nuevo comentario
 	@RequestMapping(path = "/crearComment", method = RequestMethod.GET)
-	public ModelAndView crearComment(@RequestParam String id) {
+	public ModelAndView crearComment(@RequestParam("id") String id) {
 		if (usuario != null) {
 			this.idPropuesta = Long.parseLong(id);
 			return new ModelAndView("crearComment").addObject("hidden", false);

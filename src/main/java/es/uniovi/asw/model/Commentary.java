@@ -47,11 +47,11 @@ public class Commentary {
 		this.status = EstadosComentario.Correcto;
 	}
 	
-	public String getContenido() {
+	public String getContent() {
 		return content;
 	}
 
-	public void setContenido(String content) {
+	public void setContent(String content) {
 		status = EstadosComentario.Editado;
 		this.content = content;
 	}

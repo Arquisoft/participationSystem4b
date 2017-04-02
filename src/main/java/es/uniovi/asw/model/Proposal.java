@@ -143,7 +143,7 @@ public class Proposal {
 				+ valoration + " votos y " + comments + " comments.\n";
 		if (comments.size() > 0) {
 			for (Commentary comment : comments) {
-				cadena += "\t" + comment.getContenido() + ".\n";
+				cadena += "\t" + comment.getContent() + ".\n";
 			}
 		}
 
