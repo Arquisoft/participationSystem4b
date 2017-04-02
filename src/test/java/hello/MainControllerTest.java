@@ -1,6 +1,5 @@
 package hello;
 
-import static org.hamcrest.Matchers.containsString;
 import java.net.URL;
 
 import org.junit.Before;
