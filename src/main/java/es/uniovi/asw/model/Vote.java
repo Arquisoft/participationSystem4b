@@ -14,6 +14,10 @@ import javax.persistence.TemporalType;
 
 import es.uniovi.asw.model.types.keys.VotesKey;
 
+/**
+ * @author Darkwind
+ *
+ */
 @Entity
 @IdClass(VotesKey.class)
 @Table(name = "TVOTES")
@@ -98,6 +102,13 @@ public class Vote {
 			return false;
 		return true;
 	}
+
+	@Override
+	public String toString() {
+		return "Vote [citizen=" + citizen + ", proposal=" + proposal + ", votingDate=" + votingDate + "]";
+	}
+	
+	
 
 	
 	

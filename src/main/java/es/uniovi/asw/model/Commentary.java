@@ -39,12 +39,13 @@ public class Commentary {
 	}
 
 	public Commentary(Citizen citizen, Proposal proposal, String content) {
-		Association.Comenta.link(citizen, this, proposal);
+		//Association.Comenta.link(citizen, this, proposal);
 		Calendar calendar = GregorianCalendar.getInstance();
 		this.creationDate = new Date(calendar.getTimeInMillis());
 		this.content = content;
 		this.valoration = 0;
 		this.status = EstadosComentario.Correcto;
+		Association.Comenta.link(citizen, this, proposal);
 	}
 	
 	public String getContent() {

@@ -34,8 +34,7 @@ public class Proposal {
 	@OneToMany(mappedBy = "proposal", fetch = FetchType.EAGER)
 	private Set<Vote> votes = new HashSet<Vote>();
 
-	public Proposal() {
-	}
+	public Proposal() {	}
 
 	public Proposal(String name, String content, int minVotes) {
 		this.name = name;
@@ -84,12 +83,16 @@ public class Proposal {
 	public void setContent(String content) {
 		this.content = content;
 	}
-
+	
 	public Set<Commentary> getComments() {
+		return new HashSet<Commentary>(comments);
+	}
+
+	Set<Commentary> _getComments() {
 		return comments;
 	}
 
-	public void setComments(Set<Commentary> comments) {
+	void setComments(Set<Commentary> comments) {
 		this.comments = comments;
 	}
 
@@ -140,12 +143,12 @@ public class Proposal {
 	@Override
 	public String toString() {
 		String cadena = "La propuesta: '" + name + "' tiene un total de "
-				+ valoration + " votos y " + comments + " comments.\n";
-		if (comments.size() > 0) {
-			for (Commentary comment : comments) {
-				cadena += "\t" + comment.getContent() + ".\n";
-			}
-		}
+				+ valoration + /*" votos y " + comments.size() + */" comments.\n";
+//		if (comments.size() > 0) {
+//			for (Commentary comment : comments) {
+//				cadena += "\t" + comment.getContent() + ".\n";
+//			}
+//		}
 
 		return cadena;
 	}

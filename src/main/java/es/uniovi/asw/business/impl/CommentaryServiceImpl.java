@@ -50,7 +50,6 @@ public class CommentaryServiceImpl implements CommentaryService {
 
 	@Override
 	public List<Commentary> findByProposal(long id) {
-		// TODO Auto-generated method stub
 		return comentarioRepository.findByPorposal(id);
 	}
 }
