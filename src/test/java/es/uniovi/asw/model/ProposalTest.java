@@ -114,13 +114,24 @@ public class ProposalTest {
 	public void testProposalRefuse(){
 		Proposal p = factory.getServicesFactory()
 				.getProposalService()
-				.findById(numProposals + 1);
+				.findById(numProposals);
 		p.getStatus().equals(EstadosPropuesta.Rechazada);
 		assertEquals(EstadosPropuesta.Rechazada,
 				factory.getServicesFactory()
 				.getProposalService()
 				.findById(numProposals + 1)
 				.getStatus());
+	}
+	
+	@Test
+	public void testProposaldelete(){
+		numProposals = (int) factory.getPersistenceFactory()
+				.newProposalRepository().count();
+		factory.getPersistenceFactory()
+			.newProposalRepository()
+			.delete(proposal);
+		assertEquals(numProposals - 1,
+				factory.getPersistenceFactory().newProposalRepository().count());
 	}
 	
 	private int generarAleatorio(int maximo) {
