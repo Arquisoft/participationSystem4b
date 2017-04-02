@@ -9,13 +9,15 @@
 		<table th:if="${not hidden}">
 			<thead>
 				<tr>
-					<th>Subido por </th>						
-					<th>Descripción </th>
+					<th>Subido por</th>	
+					<th>Comentario</th>	
+					<th>Fecha</th>	
 				</tr>
 			</thead>
-			<tr th:each="comment:${commentaries}">
-				<td th:text="${comment.citizen.name}"></td>
-				<td th:text="${proposal.content}"></td>
+			<tr  th:each="dato:${datos}">
+				<td th:text="${dato.nombre}"></td>	
+				<td th:text="${dato.content}"></td>	
+				<td th:text="${dato.date}"></td>	
 			</tr>
 		</table>
 	</body>

@@ -92,7 +92,7 @@ public class PruebaTest implements comprobarCabeceraAdmin {
 			for (WebElement trElement : numFilas) {
 				List<WebElement> numColum = trElement
 						.findElements(By.xpath("td"));
-				assertEquals(5, numColum.size());
+				assertEquals(6, numColum.size());
 				for (WebElement elemento : numColum) {
 					assertNotNull(elemento);
 				}

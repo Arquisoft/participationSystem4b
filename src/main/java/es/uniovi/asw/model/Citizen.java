@@ -53,8 +53,7 @@ public class Citizen {
 	@OneToMany(mappedBy = "citizen", fetch = FetchType.EAGER)
 	private Set<Vote> votes = new HashSet<Vote>();
 
-	Citizen() {
-	}
+	Citizen() {	}
 
 	public Citizen(String nombre, String apellidos, String email,
 			Date fechaNacimiento, String residencia, String nacionalidad,
@@ -174,10 +173,14 @@ public class Citizen {
 	}
 
 	public Set<Commentary> getComentarios() {
+		return new HashSet<Commentary>(comentarios);
+	}
+	
+	public Set<Commentary> _getComentarios() {
 		return comentarios;
 	}
 
-	public void setComentarios(Set<Commentary> comentarios) {
+	void setComentarios(Set<Commentary> comentarios) {
 		this.comentarios = comentarios;
 	}
 
@@ -208,7 +211,7 @@ public class Citizen {
 				+ fechaNacimiento + ", residencia=" + residencia
 				+ ", nacionalidad=" + nacionalidad + ", dni=" + dni
 				+ ", password=" + password + ", isAdmin=" + isAdmin
-				+ ", comentarios=" + comentarios + ", votes=" + votes + "]";
+				+ ", comentarios=" + comentarios.size() + ", votes=" + votes.size() + "]";
 	}
 
 	@Override
