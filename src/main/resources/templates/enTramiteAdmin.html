@@ -1,21 +1,19 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-	<head>
-		<head th:replace="plantillas/header :: head"></head>
-	</head>
+	<head th:replace="plantillas/header :: head"></head>
 	<body>
 		<header th:replace="plantillas/header :: menuAdmin"></header>
-		<h1>Propuestas en trámite</h1>
+		<h1 id="propuestas">Propuestas en trámite</h1>
 		
 		<h3 th:if="${hidden}">Todavia no se creo ninguna propuesta.</h3>
-		<table th:if="${not hidden}">
+		<table id= "tablaPropuestasEnTramite" th:if="${not hidden}">
 				<thead>
 					<tr>
-						<th>Propuestas </th>				
-						<th>Votos actuales </th>					
-						<th>Votos para ser aceptada </th>
-						<th>Opcion </th>
-						<th>Comentarios </th>
+						<th>Propuestas</th>				
+						<th>Votos actuales</th>					
+						<th>Votos para ser aceptada</th>
+						<th>Opción</th>
+						<th>Comentarios</th>
 					</tr>
 				</thead>
 				<tr th:each="proposal:${proposals}">
