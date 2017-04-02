@@ -53,20 +53,21 @@ public class Citizen {
 	@OneToMany(mappedBy = "citizen", fetch = FetchType.EAGER)
 	private Set<Vote> votes = new HashSet<Vote>();
 
-	Citizen() {	}
+	Citizen() {
+	}
 
 	public Citizen(String nombre, String apellidos, String email,
 			Date fechaNacimiento, String residencia, String nacionalidad,
 			String dni) throws NoSuchAlgorithmException, CitizenException {
-		this.nombre = nombre;
-		this.apellidos = apellidos;
-		this.email = email;
+		setNombre(nombre);
+		setApellidos(apellidos);
+		setEmail(email);
 		setFechaNacimiento(fechaNacimiento);
-		this.residencia = residencia;
-		this.nacionalidad = nacionalidad;
-		this.dni = dni;
-		this.password = generarPassword();
-		this.isAdmin = false;
+		setResidencia(residencia);
+		setNacionalidad(nacionalidad);
+		setDni(dni);
+		setPassword(generarPassword());
+		setAdmin(false);
 	}
 
 	public Long getId() {
@@ -175,7 +176,7 @@ public class Citizen {
 	public Set<Commentary> getComentarios() {
 		return new HashSet<Commentary>(comentarios);
 	}
-	
+
 	public Set<Commentary> _getComentarios() {
 		return comentarios;
 	}
@@ -211,7 +212,8 @@ public class Citizen {
 				+ fechaNacimiento + ", residencia=" + residencia
 				+ ", nacionalidad=" + nacionalidad + ", dni=" + dni
 				+ ", password=" + password + ", isAdmin=" + isAdmin
-				+ ", comentarios=" + comentarios.size() + ", votes=" + votes.size() + "]";
+				+ ", comentarios=" + comentarios.size() + ", votes="
+				+ votes.size() + "]";
 	}
 
 	@Override
