@@ -6,12 +6,12 @@ public class Association {
 				Proposal proposal) {
 			commentary.setCitizen(citizen);
 			commentary.setProposal(proposal);
-			citizen._getComentarios().add(commentary);
+			citizen.getComentarios().add(commentary);
 			proposal._getComments().add(commentary);
 		}
 
 		public static void unlink(Commentary commentary) {
-			commentary.getCitizen()._getComentarios().remove(commentary);
+			commentary.getCitizen().getComentarios().remove(commentary);
 			commentary.getProposal()._getComments().remove(commentary);
 			commentary.setCitizen(null);
 			commentary.setProposal(null);

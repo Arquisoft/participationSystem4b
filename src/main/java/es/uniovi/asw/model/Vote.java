@@ -46,7 +46,7 @@ public class Vote {
 		return citizen;
 	}
 
-	void setCitizen(Citizen citizen) {
+	public void setCitizen(Citizen citizen) {
 		this.citizen = citizen;
 	}
 
