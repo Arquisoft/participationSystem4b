@@ -3,12 +3,25 @@ package es.uniovi.asw;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 import org.junit.*;
+import org.junit.runner.RunWith;
+
 import static org.junit.Assert.*;
 import org.openqa.selenium.*;
+import org.springframework.boot.test.IntegrationTest;
+import org.springframework.boot.test.SpringApplicationConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.web.WebAppConfiguration;
+
 import cucumber.api.java.en.*;
 
 import es.uniovi.asw.util.*;
+import es.uniovi.asw.Application;
 
+@SuppressWarnings("deprecation")
+@RunWith(SpringJUnit4ClassRunner.class)
+@SpringApplicationConfiguration(classes = Application.class)
+@WebAppConfiguration
+@IntegrationTest({ "server.port=8080" })
 public class PruebaTest implements comprobarCabeceraAdmin {
 	private SeleniumUtil sU = new SeleniumUtil();
 	private WebDriver driver;
@@ -19,7 +32,7 @@ public class PruebaTest implements comprobarCabeceraAdmin {
 	public void setUp() throws Exception {
 		driver = sU.getDriver();
 		baseUrl = "http://localhost:8080/";
-		driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
+		driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
 	}
 
 	@Test
