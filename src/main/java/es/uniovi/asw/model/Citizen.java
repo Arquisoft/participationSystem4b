@@ -211,7 +211,7 @@ public class Citizen {
 				+ fechaNacimiento + ", residencia=" + residencia
 				+ ", nacionalidad=" + nacionalidad + ", dni=" + dni
 				+ ", password=" + password + ", isAdmin=" + isAdmin
-				+ /*", comentarios=" + comentarios.size() + ", votes=" + votes.size() + */"]";
+				+ ", comentarios=" + comentarios.size() + ", votes=" + votes.size() + "]";
 	}
 
 	@Override

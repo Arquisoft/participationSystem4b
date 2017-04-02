@@ -143,13 +143,7 @@ public class Proposal {
 	@Override
 	public String toString() {
 		String cadena = "La propuesta: '" + name + "' tiene un total de "
-				+ valoration + /*" votos y " + comments.size() + */" comments.\n";
-//		if (comments.size() > 0) {
-//			for (Commentary comment : comments) {
-//				cadena += "\t" + comment.getContent() + ".\n";
-//			}
-//		}
-
+				+ valoration + " votos y " + comments.size() + " comments.\n";
 		return cadena;
 	}
 
