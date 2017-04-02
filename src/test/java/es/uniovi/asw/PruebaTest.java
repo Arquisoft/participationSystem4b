@@ -7,7 +7,6 @@ import org.junit.runner.RunWith;
 
 import static org.junit.Assert.*;
 import org.openqa.selenium.*;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -18,19 +17,17 @@ import es.uniovi.asw.util.*;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = Application.class)
 @SpringBootTest(classes = Application.class, webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
-public class PruebaTest implements comprobarCabeceraAdmin {
+public class PruebaTest {
 
-	private SeleniumUtil sU = new SeleniumUtil();
+	private SeleniumUtilTest sU = new SeleniumUtilTest();
 	private WebDriver driver;
-	@Value("${local.server.port}")
-	private int serverPort;
 	private String baseUrl;
 	private StringBuffer verificationErrors = new StringBuffer();
 
 	@Before
 	public void setUp() throws Exception {
 		driver = sU.getDriver();
-		baseUrl = String.format("http://localhost:%d/", serverPort);
+		baseUrl = String.format("http://localhost:8080/");
 		driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
 	}
 
