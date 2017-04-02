@@ -1,6 +1,6 @@
 package es.uniovi.asw.model;
 
-public class Prueba {
+public class ImprimeDatosComment {
 	
 	private String nombre;
 	private String content;
@@ -30,7 +30,7 @@ public class Prueba {
 		this.date = date;
 	}
 
-	public Prueba(){}
+	public ImprimeDatosComment(){}
 
 	@Override
 	public String toString() {

@@ -21,7 +21,7 @@ import es.uniovi.asw.model.Citizen;
 import es.uniovi.asw.model.Commentary;
 import es.uniovi.asw.model.EstadosPropuesta;
 import es.uniovi.asw.model.Proposal;
-import es.uniovi.asw.model.Prueba;
+import es.uniovi.asw.model.ImprimeDatosComment;
 
 /**
  * Acceso web
@@ -80,9 +80,9 @@ public class MainController {
 					.findByProposal(Long.parseLong(id));
 			
 			if (commentaries != null){		
-				List<Prueba> imp = new ArrayList<Prueba>();
+				List<ImprimeDatosComment> imp = new ArrayList<ImprimeDatosComment>();
 				for(int i = 0; i < commentaries.size(); i++){
-					Prueba imprime = new Prueba();
+					ImprimeDatosComment imprime = new ImprimeDatosComment();
 					imprime.setContent(commentaries.get(i).getContent());
 					imprime.setNombre(factory.getServicesFactory().getCitizenService()
 							.findById(commentaries.get(i).getProposal().getId()).getNombre());
