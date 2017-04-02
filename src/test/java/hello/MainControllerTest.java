@@ -1,5 +1,6 @@
 package hello;
 
+import static org.hamcrest.Matchers.containsString;
 import java.net.URL;
 
 import org.junit.Before;
@@ -33,13 +34,13 @@ public class MainControllerTest {
 		template = new TestRestTemplate();
 	}
 
-//	@Test
-//	public void getLanding() throws Exception {
-//		String userURI = base.toString() + "/user";
-//		ResponseEntity<String> response = template.getForEntity(base.toString(),
-//				String.class);
-//		assertThat(response.getBody(), containsString("Hola"));
-//	}
+	// @Test
+	// public void getLanding() throws Exception {
+	// String userURI = base.toString() + "/user";
+	// ResponseEntity<String> response = template.getForEntity(base.toString(),
+	// String.class);
+	// assertThat(response.getBody(), containsString("Hola"));
+	// }
 
 	@SuppressWarnings("unused")
 	@Test

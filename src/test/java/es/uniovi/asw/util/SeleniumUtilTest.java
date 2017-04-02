@@ -10,7 +10,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.htmlunit.HtmlUnitDriver;
 
-public class SeleniumUtil {
+public class SeleniumUtilTest {
 	private WebDriver driver = new HtmlUnitDriver();
 
 	public WebDriver getDriver() {
