@@ -1,8 +1,6 @@
 package es.uniovi.asw.model;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.*;
 
 import java.security.NoSuchAlgorithmException;
 import java.util.List;
@@ -106,19 +104,23 @@ public class ProposalTest {
 		Proposal p = factory.getServicesFactory()
 				.getProposalService().findById(1L);
 		String contenido = p.getContent();
-	
+		p.setContent("cambiado");	
 		assertFalse(contenido.equals(p.getContent()));
-		
+		p.setContent(contenido);
+		assertTrue(contenido.equals(p.getContent()));
 	}
 	
 	@Test
-	public void testProposalDelete(){
+	public void testProposalRefuse(){
 		Proposal p = factory.getServicesFactory()
 				.getProposalService()
 				.findById(numProposals + 1);
-		factory.getPersistenceFactory().newProposalRepository().delete(p);
-		assertEquals(numProposals,
-				factory.getPersistenceFactory().newProposalRepository().count());
+		p.getStatus().equals(EstadosPropuesta.Rechazada);
+		assertEquals(EstadosPropuesta.Rechazada,
+				factory.getServicesFactory()
+				.getProposalService()
+				.findById(numProposals + 1)
+				.getStatus());
 	}
 	
 	private int generarAleatorio(int maximo) {
