@@ -50,7 +50,7 @@ public class ProposalTest {
 				.count());
 	}
 	
-	@Test
+	/*@Test
 	public void testProposalAll() {
 		List<Proposal> proposals = factory.getServicesFactory()
 				.getProposalService()
@@ -126,5 +126,5 @@ public class ProposalTest {
 	private int generarAleatorio(int maximo) {
 		Random random = new Random();
 		return (int) (random.nextDouble() * maximo) + 1;
-	}
+	}*/
 }
