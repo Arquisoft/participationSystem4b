@@ -110,34 +110,6 @@ public class ProposalTest {
 	}
 	
 	@Test
-	public void testProposalUpdate(){
-		Proposal p = factory.getServicesFactory()
-				.getProposalService()
-				.findById(1L);
-		String contenido = p.getContent();
-		p.setContent("cambiado");
-		factory.getServicesFactory()
-			.getProposalService()
-			.save(p);
-		assertFalse(contenido.equals(factory.getServicesFactory()
-				.getProposalService()
-				.findById(1L)
-				.getContent()));
-		p = factory.getServicesFactory()
-				.getProposalService()
-				.findById(1L);
-		p.setContent(contenido);
-		factory.getServicesFactory()
-			.getProposalService()
-			.save(p);
-		assertTrue(contenido.equals(factory.getServicesFactory()
-				.getProposalService()
-				.findById(1L)
-				.getContent()));
-	}
-	
-	
-	@Test
 	public void testProposaldelete(){
 		numProposals = (int) factory.getPersistenceFactory()
 				.newProposalRepository()
@@ -145,7 +117,7 @@ public class ProposalTest {
 		factory.getPersistenceFactory()
 			.newProposalRepository()
 			.delete(proposal);
-		assertEquals(numProposals - 1,
+		assertEquals(numProposals,
 				factory.getPersistenceFactory()
 				.newProposalRepository()
 				.count());
