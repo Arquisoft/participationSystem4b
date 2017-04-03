@@ -33,7 +33,7 @@ public class MainController {
 
 	@Autowired
 	private KafkaProducer kafkaProducer;
-	
+
 	private Citizen usuario;
 
 	// Con este id controlo la propuesta en la que estoy cuando se navega entre
@@ -52,32 +52,39 @@ public class MainController {
 		// Cerramos sesion usuario a null y lo mandamos al landing
 		// Aunque tambien se inicializa al principio
 		usuario = null;
-		kafkaProducer.send("logout", "El usuario cerro sesion correctamente" + " o es la primera vez que entrea");
+		kafkaProducer.send("logout", "El usuario cerro sesion correctamente"
+				+ " o es la primera vez que entrea");
 		return "landing";
 	}
 
 	// Se le llama al realizar login
 	@RequestMapping(path = "/login", method = RequestMethod.POST)
-	public ModelAndView login(@RequestParam("dni") String dni, @RequestParam("password") String password) {
+	public ModelAndView login(@RequestParam("dni") String dni,
+			@RequestParam("password") String password) {
 		// Para cuando la bbdd tenga contraseñas que nos conocemos
 		// usuario = servicio.findLoggableUser(dni , md5(password));
 
-		usuario = factory.getServicesFactory().getCitizenService().findByDni(dni);
+		usuario = factory.getServicesFactory().getCitizenService()
+				.findByDni(dni);
 
 		if (usuario != null) {
 			if (usuario.isAdmin()) {
-				kafkaProducer.send("admin", "El administrador del sistema se ha logueado");
+				kafkaProducer.send("admin",
+						"El administrador del sistema se ha logueado");
 				return new ModelAndView("admin"); // la contraseña de admin es
 			} else {
-				List<Proposal> proposals = factory.getServicesFactory().getProposalService()
+				List<Proposal> proposals = factory.getServicesFactory()
+						.getProposalService()
 						.findByStatus(EstadosPropuesta.EnTramite);
-				kafkaProducer.send("user", "El usuario " + usuario.getNombre() + " se ha logueado");
-				return new ModelAndView("usuario").addObject("proposals", proposals);
+				kafkaProducer.send("user", "El usuario " + usuario.getNombre()
+						+ " se ha logueado");
+				return new ModelAndView("usuario").addObject("proposals",
+						proposals);
 			}
 		} else {
 			kafkaProducer.send("login", "Usuario o contraseña incorrectos");
-			return new ModelAndView("landing").addObject("hidden", true).addObject("mensaje",
-					"Usuario o contraseña invalido.");
+			return new ModelAndView("landing").addObject("hidden", true)
+					.addObject("mensaje", "Usuario o contraseña invalido.");
 		}
 	}
 
@@ -91,49 +98,70 @@ public class MainController {
 			List<ImprimeDatosComment> imp = null;
 
 			if (usuario.isAdmin()) {
-				commentaries = factory.getServicesFactory().getCommentaryService().findByProposalId(idPropuesta);
+				commentaries = factory.getServicesFactory()
+						.getCommentaryService().findByProposalId(idPropuesta);
 				imp = new ArrayList<ImprimeDatosComment>();
 				for (int i = 0; i < commentaries.size(); i++) {
 					ImprimeDatosComment imprime = new ImprimeDatosComment();
 					imprime.setContent(commentaries.get(i).getContent());
-					imprime.setNombre(factory.getServicesFactory().getCitizenService()
-							.findById(commentaries.get(i).getCitizen().getId()).getNombre());
-					imprime.setDate(commentaries.get(i).getCreationDate().toString());
-					imprime.setStatus(commentaries.get(i).getEstado().toString());
-					imprime.setIdComment(commentaries.get(i).getCreationDate().toString());
+					imprime.setNombre(factory.getServicesFactory()
+							.getCitizenService()
+							.findById(commentaries.get(i).getCitizen().getId())
+							.getNombre());
+					imprime.setDate(
+							commentaries.get(i).getCreationDate().toString());
+					imprime.setStatus(
+							commentaries.get(i).getEstado().toString());
+					imprime.setIdComment(
+							commentaries.get(i).getCreationDate().toString());
 
 					imp.add(imprime);
 				}
 
 				if (commentaries != null) {
-					kafkaProducer.send("admin", "La propuesta seleccionada tiene comentarios");
-					return new ModelAndView("commentAdmin").addObject("commentaries", commentaries)
-							.addObject("hidden", false).addObject("id", id).addObject("datos", imp);
+					kafkaProducer.send("admin",
+							"La propuesta seleccionada tiene comentarios");
+					return new ModelAndView("commentAdmin")
+							.addObject("commentaries", commentaries)
+							.addObject("hidden", false).addObject("id", id)
+							.addObject("datos", imp);
 				} else {
-					kafkaProducer.send("admin", "La propuesta seleccionada no tiene comentarios");
-					return new ModelAndView("commentAdmin").addObject("hidden", true).addObject("id", id);
+					kafkaProducer.send("admin",
+							"La propuesta seleccionada no tiene comentarios");
+					return new ModelAndView("commentAdmin")
+							.addObject("hidden", true).addObject("id", id);
 				}
 
 			} else {
-				commentaries = factory.getServicesFactory().getCommentaryService().findByProposal(Long.parseLong(id));
+				commentaries = factory.getServicesFactory()
+						.getCommentaryService()
+						.findByProposal(Long.parseLong(id));
 				imp = new ArrayList<ImprimeDatosComment>();
 				for (int i = 0; i < commentaries.size(); i++) {
 					ImprimeDatosComment imprime = new ImprimeDatosComment();
 					imprime.setContent(commentaries.get(i).getContent());
-					imprime.setNombre(factory.getServicesFactory().getCitizenService()
-							.findById(commentaries.get(i).getCitizen().getId()).getNombre());
-					imprime.setDate(commentaries.get(i).getCreationDate().toString());
+					imprime.setNombre(factory.getServicesFactory()
+							.getCitizenService()
+							.findById(commentaries.get(i).getCitizen().getId())
+							.getNombre());
+					imprime.setDate(
+							commentaries.get(i).getCreationDate().toString());
 
 					imp.add(imprime);
 				}
 
 				if (commentaries != null) {
-					kafkaProducer.send("user", "La propuesta seleccionada tiene comentarios");
-					return new ModelAndView("comment").addObject("commentaries", commentaries)
-							.addObject("hidden", false).addObject("id", id).addObject("datos", imp);
+					kafkaProducer.send("user",
+							"La propuesta seleccionada tiene comentarios");
+					return new ModelAndView("comment")
+							.addObject("commentaries", commentaries)
+							.addObject("hidden", false).addObject("id", id)
+							.addObject("datos", imp);
 				} else {
-					kafkaProducer.send("user", "La propuesta seleccionada no tiene comentarios");
-					return new ModelAndView("comment").addObject("hidden", true).addObject("id", id);
+					kafkaProducer.send("user",
+							"La propuesta seleccionada no tiene comentarios");
+					return new ModelAndView("comment").addObject("hidden", true)
+							.addObject("id", id);
 				}
 			}
 		} else {
@@ -145,7 +173,8 @@ public class MainController {
 	@RequestMapping(path = "/censurar", method = RequestMethod.GET)
 	public ModelAndView censurar(@RequestParam("id") String idComment) {
 		if (usuario != null) {
-			SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+			SimpleDateFormat formato = new SimpleDateFormat(
+					"yyyy-MM-dd HH:mm:ss");
 			Date fec = null;
 			try {
 
@@ -153,11 +182,15 @@ public class MainController {
 			} catch (ParseException e) {
 				e.printStackTrace();
 			}
-			Commentary comentario = factory.getServicesFactory().getCommentaryService().findByCreationDate(fec);
+			Commentary comentario = factory.getServicesFactory()
+					.getCommentaryService().findByCreationDate(fec);
 			comentario.setEstado(EstadosComentario.Censurado);
-			factory.getServicesFactory().getCommentaryService().update(comentario);
+			factory.getServicesFactory().getCommentaryService()
+					.update(comentario);
 
-			kafkaProducer.send("admin", "El administrador censuro este comentario: " + comentario.getContent());
+			kafkaProducer.send("admin",
+					"El administrador censuro este comentario: "
+							+ comentario.getContent());
 			return comment(idPropuesta.toString());
 		} else {
 			kafkaProducer.send("login", "No existe el usuario en sesion");
@@ -170,7 +203,8 @@ public class MainController {
 	public ModelAndView crearComment(@RequestParam("id") String id) {
 		if (usuario != null) {
 			this.idPropuesta = Long.parseLong(id);
-			kafkaProducer.send("user", "Cargando formulario para crear comentario");
+			kafkaProducer.send("user",
+					"Cargando formulario para crear comentario");
 			return new ModelAndView("crearComment").addObject("hidden", false);
 		} else {
 			kafkaProducer.send("login", "El usuario no existe en sesion");
@@ -182,9 +216,11 @@ public class MainController {
 	@RequestMapping(path = "/salvarComment", method = RequestMethod.POST)
 	public ModelAndView salvarComment(@RequestParam("comment") String comment) {
 		if (idPropuesta != null && usuario != null) {
-			System.out.println(comment + " \nid de la propuesta: " + Long.toString(idPropuesta));
+			System.out.println(comment + " \nid de la propuesta: "
+					+ Long.toString(idPropuesta));
 			// Arreglar la parte del modelo
-			factory.getServicesFactory().getCommentaryService().save(usuario.getId(), idPropuesta, comment);
+			factory.getServicesFactory().getCommentaryService()
+					.save(usuario.getId(), idPropuesta, comment);
 			kafkaProducer.send("user", "El comentario se añadio correctamente");
 			return comment(Long.toString(idPropuesta));
 
@@ -200,16 +236,20 @@ public class MainController {
 	public ModelAndView backUser() {
 		if (usuario != null) {
 			if (usuario.isAdmin()) {
-				kafkaProducer.send("admin", "El administrador volvio a su pagina principal");
+				kafkaProducer.send("admin",
+						"El administrador volvio a su pagina principal");
 				return new ModelAndView("admin");
 			} else {
 				idPropuesta = null; // cuando se pulsa en incio reseteo el id de
 									// la propuesta para evitar la navegacion
 									// incorrecta
-				List<Proposal> proposals = factory.getServicesFactory().getProposalService()
+				List<Proposal> proposals = factory.getServicesFactory()
+						.getProposalService()
 						.findByStatus(EstadosPropuesta.EnTramite);
-				kafkaProducer.send("user", "El usuario " + usuario.getNombre() + " volvio a su pagina principal");
-				return new ModelAndView("usuario").addObject("proposals", proposals);
+				kafkaProducer.send("user", "El usuario " + usuario.getNombre()
+						+ " volvio a su pagina principal");
+				return new ModelAndView("usuario").addObject("proposals",
+						proposals);
 			}
 		} else {
 			kafkaProducer.send("login", "El usuario no existe en sesion");
@@ -243,10 +283,12 @@ public class MainController {
 			Proposal propuesta = new Proposal(nombre, contenido, 1000);
 
 			factory.getServicesFactory().getProposalService().save(propuesta);
-			List<Proposal> proposals = factory.getServicesFactory().getProposalService()
+			List<Proposal> proposals = factory.getServicesFactory()
+					.getProposalService()
 					.findByStatus(EstadosPropuesta.EnTramite);
 			kafkaProducer.send("admin", "Propuesta creada");
-			return new ModelAndView("usuario").addObject("proposals", proposals);
+			return new ModelAndView("usuario").addObject("proposals",
+					proposals);
 		} else {
 			kafkaProducer.send("admin", "Fallo al crear propuesta");
 			return fail();
@@ -254,10 +296,11 @@ public class MainController {
 	}
 
 	@RequestMapping(path = "/votarPositivo", method = RequestMethod.GET)
-	public ModelAndView votarPositivo(@RequestParam("idPropuesta") String idPropuesta) {
+	public ModelAndView votarPositivo(
+			@RequestParam("idPropuesta") String idPropuesta) {
 		if (usuario != null) {
-			Proposal propuesta = factory.getServicesFactory().getProposalService()
-					.findById(Long.parseLong(idPropuesta));
+			Proposal propuesta = factory.getServicesFactory()
+					.getProposalService().findById(Long.parseLong(idPropuesta));
 			propuesta.positiveVote();
 
 			if (propuesta.getValoration() >= propuesta.getMinVotes()) {
@@ -265,10 +308,12 @@ public class MainController {
 			}
 
 			factory.getServicesFactory().getProposalService().update(propuesta);
-			List<Proposal> proposals = factory.getServicesFactory().getProposalService()
+			List<Proposal> proposals = factory.getServicesFactory()
+					.getProposalService()
 					.findByStatus(EstadosPropuesta.EnTramite);
 			kafkaProducer.send("user", "Voto positivo");
-			return new ModelAndView("usuario").addObject("proposals", proposals);
+			return new ModelAndView("usuario").addObject("proposals",
+					proposals);
 		} else {
 			kafkaProducer.send("user", "Error al votar positivo");
 			return fail();
@@ -276,16 +321,19 @@ public class MainController {
 	}
 
 	@RequestMapping(path = "/votarNegativo", method = RequestMethod.GET)
-	public ModelAndView votarNegativo(@RequestParam("idPropuesta") String idPropuesta) {
+	public ModelAndView votarNegativo(
+			@RequestParam("idPropuesta") String idPropuesta) {
 		if (usuario != null) {
-			Proposal propuesta = factory.getServicesFactory().getProposalService()
-					.findById(Long.parseLong(idPropuesta));
+			Proposal propuesta = factory.getServicesFactory()
+					.getProposalService().findById(Long.parseLong(idPropuesta));
 			propuesta.negativeVote();
 			factory.getServicesFactory().getProposalService().update(propuesta);
-			List<Proposal> proposals = factory.getServicesFactory().getProposalService()
+			List<Proposal> proposals = factory.getServicesFactory()
+					.getProposalService()
 					.findByStatus(EstadosPropuesta.EnTramite);
 			kafkaProducer.send("user", "Voto negativo");
-			return new ModelAndView("usuario").addObject("proposals", proposals);
+			return new ModelAndView("usuario").addObject("proposals",
+					proposals);
 		} else {
 			kafkaProducer.send("user", "Error al votar negativo");
 			return fail();
@@ -295,25 +343,32 @@ public class MainController {
 	@RequestMapping("/propuestasTramite")
 	public ModelAndView propuestasTramite() {
 		if (usuario != null) {
-			List<Proposal> proposals = factory.getServicesFactory().getProposalService()
+			List<Proposal> proposals = factory.getServicesFactory()
+					.getProposalService()
 					.findByStatus(EstadosPropuesta.EnTramite);
 
 			if (usuario.isAdmin()) {
 				if (proposals != null) {
 					kafkaProducer.send("admin", "Propuestas en trámite");
-					return new ModelAndView("enTramiteAdmin").addObject("proposals", proposals)
-							.addObject("hidden", false).addObject("id", idPropuesta);
+					return new ModelAndView("enTramiteAdmin")
+							.addObject("proposals", proposals)
+							.addObject("hidden", false)
+							.addObject("id", idPropuesta);
 				} else {
 					kafkaProducer.send("admin", "Propuestas en trámite");
-					return new ModelAndView("enTramiteAdmin").addObject("hidden", true);
+					return new ModelAndView("enTramiteAdmin")
+							.addObject("hidden", true);
 				}
 			} else {
 				if (proposals != null) {
 					kafkaProducer.send("user", "Propuestas en trámite");
-					return new ModelAndView("enTramite").addObject("proposals", proposals).addObject("hidden", false);
+					return new ModelAndView("enTramite")
+							.addObject("proposals", proposals)
+							.addObject("hidden", false);
 				} else {
 					kafkaProducer.send("user", "Propuestas en trámite");
-					return new ModelAndView("enTramite").addObject("hidden", true);
+					return new ModelAndView("enTramite").addObject("hidden",
+							true);
 				}
 			}
 		} else {
@@ -325,15 +380,19 @@ public class MainController {
 	@RequestMapping("/propuestasRechazadas")
 	public ModelAndView propuestasRechazadas() {
 		if (usuario != null) {
-			List<Proposal> proposals = factory.getServicesFactory().getProposalService()
+			List<Proposal> proposals = factory.getServicesFactory()
+					.getProposalService()
 					.findByStatus(EstadosPropuesta.Rechazada);
 			if (usuario.isAdmin()) {
 				if (proposals != null) {
 					kafkaProducer.send("admin", "Propuestas rechazadas");
-					return new ModelAndView("rechazadas").addObject("proposals", proposals).addObject("hidden", false);
+					return new ModelAndView("rechazadas")
+							.addObject("proposals", proposals)
+							.addObject("hidden", false);
 				} else {
 					kafkaProducer.send("admin", "Propuestas rechazadas");
-					return new ModelAndView("rechazadas").addObject("hidden", true);
+					return new ModelAndView("rechazadas").addObject("hidden",
+							true);
 				}
 			} else {
 				kafkaProducer.send("admin", "Error en propuestas rechazadas");
@@ -348,25 +407,30 @@ public class MainController {
 	@RequestMapping("/propuestasAceptadas")
 	public ModelAndView propuestasAceptadas() {
 		if (usuario != null) {
-			List<Proposal> proposals = factory.getServicesFactory().getProposalService()
+			List<Proposal> proposals = factory.getServicesFactory()
+					.getProposalService()
 					.findByStatus(EstadosPropuesta.Aceptada);
 			if (usuario.isAdmin()) {
 				if (proposals != null) {
 					kafkaProducer.send("admin", "Propuestas aceptadas");
-					return new ModelAndView("aceptadasAdmin").addObject("proposals", proposals).addObject("hidden",
-							false);
-				}
-				else {
+					return new ModelAndView("aceptadasAdmin")
+							.addObject("proposals", proposals)
+							.addObject("hidden", false);
+				} else {
 					kafkaProducer.send("admin", "Propuestas aceptadas");
-					return new ModelAndView("aceptadasAdmin").addObject("hidden", true);
+					return new ModelAndView("aceptadasAdmin")
+							.addObject("hidden", true);
 				}
 			} else {
 				if (proposals != null) {
 					kafkaProducer.send("user", "Propuestas aceptadas");
-					return new ModelAndView("aceptadas").addObject("proposals", proposals).addObject("hidden", false);
+					return new ModelAndView("aceptadas")
+							.addObject("proposals", proposals)
+							.addObject("hidden", false);
 				} else {
 					kafkaProducer.send("user", "Propuestas aceptadas");
-					return new ModelAndView("aceptadas").addObject("hidden", true);
+					return new ModelAndView("aceptadas").addObject("hidden",
+							true);
 				}
 			}
 		} else {
@@ -376,17 +440,21 @@ public class MainController {
 	}
 
 	@RequestMapping(path = "/rechazarPropuesta", method = RequestMethod.GET)
-	public ModelAndView rechazarPropuesta(@RequestParam("idPropuesta") String idPropuesta) {
+	public ModelAndView rechazarPropuesta(
+			@RequestParam("idPropuesta") String idPropuesta) {
 		if (usuario != null) {
-			Proposal propuesta = factory.getServicesFactory().getProposalService()
-					.findById(Long.parseLong(idPropuesta));
+			Proposal propuesta = factory.getServicesFactory()
+					.getProposalService().findById(Long.parseLong(idPropuesta));
 			propuesta.setStatus(EstadosPropuesta.Rechazada);
 
 			factory.getServicesFactory().getProposalService().update(propuesta);
-			List<Proposal> proposals = factory.getServicesFactory().getProposalService()
+			List<Proposal> proposals = factory.getServicesFactory()
+					.getProposalService()
 					.findByStatus(EstadosPropuesta.EnTramite);
 			kafkaProducer.send("admin", "Propuesta rechazada");
-			return new ModelAndView("enTramiteAdmin").addObject("proposals", proposals).addObject("hidden", false);
+			return new ModelAndView("enTramiteAdmin")
+					.addObject("proposals", proposals)
+					.addObject("hidden", false);
 		} else {
 			kafkaProducer.send("admin", "Error al rechazar una propuesta");
 			return fail();
@@ -394,19 +462,23 @@ public class MainController {
 	}
 
 	@RequestMapping(path = "/modificarMinVotes", method = RequestMethod.POST)
-	public ModelAndView modificarMinVotes(@RequestParam("minVotes") int minVotes,
+	public ModelAndView modificarMinVotes(
+			@RequestParam("minVotes") int minVotes,
 			@RequestParam("idPropuesta") String idPropuesta) {
 		if (usuario != null) {
-			Proposal propuesta = factory.getServicesFactory().getProposalService()
-					.findById(Long.parseLong(idPropuesta));
+			Proposal propuesta = factory.getServicesFactory()
+					.getProposalService().findById(Long.parseLong(idPropuesta));
 			propuesta.setMinVotes(minVotes);
 
 			factory.getServicesFactory().getProposalService().update(propuesta);
-			List<Proposal> proposals = factory.getServicesFactory().getProposalService()
+			List<Proposal> proposals = factory.getServicesFactory()
+					.getProposalService()
 					.findByStatus(EstadosPropuesta.EnTramite);
 			kafkaProducer.send("admin", "Modificar número de votos");
-			return new ModelAndView("enTramiteAdmin").addObject("proposals", proposals).addObject("hidden", false);
-		} else{
+			return new ModelAndView("enTramiteAdmin")
+					.addObject("proposals", proposals)
+					.addObject("hidden", false);
+		} else {
 			kafkaProducer.send("admin", "Error en modificar número de votos");
 			return fail();
 		}

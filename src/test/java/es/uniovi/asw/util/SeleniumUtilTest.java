@@ -47,4 +47,11 @@ public class SeleniumUtilTest {
 			return false;
 		}
 	}
+
+	public void imprimirHijos(String tagName) {
+		WebElement body = driver.findElement(By.tagName(tagName));
+		for (WebElement body2 : body.findElements(By.xpath("./*"))) {
+			System.err.println(body2);
+		}
+	}
 }
