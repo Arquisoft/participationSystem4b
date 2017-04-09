@@ -5,7 +5,6 @@ import java.util.Date;
 
 public class ComentaryKey implements Serializable {
 	private static final long serialVersionUID = 1L;
-
 	private Long citizen;
 	private Long proposal;
 	private Date creationDate;

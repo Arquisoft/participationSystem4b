@@ -6,8 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import es.uniovi.asw.business.ProposalService;
-import es.uniovi.asw.model.EstadosPropuesta;
 import es.uniovi.asw.model.Proposal;
+import es.uniovi.asw.model.types.status.EstadosPropuesta;
 import es.uniovi.asw.persistence.ProposalRepository;
 
 @Service
@@ -44,6 +44,16 @@ public class ProposalServiceImpl implements ProposalService {
 	@Override
 	public List<Proposal> findByStatus(EstadosPropuesta estado) {
 		return propuestaRepository.findByStatus(estado);
+	}
+
+	@Override
+	public Proposal findByName(String name) {
+		return propuestaRepository.findByName(name);
+	}
+
+	@Override
+	public int count() {
+		return (int) propuestaRepository.count();
 	}
 
 }

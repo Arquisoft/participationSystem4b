@@ -7,8 +7,6 @@ import java.sql.Date;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.List;
-import java.util.Random;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -20,6 +18,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import es.uniovi.asw.Application;
 import es.uniovi.asw.conf.Factories;
 import es.uniovi.asw.model.exception.CitizenException;
+import es.uniovi.asw.util.Util;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = Application.class)
@@ -112,7 +111,7 @@ public class CitizenTest {
 	@Test
 	public void testCitizensFindById() {
 		for (int i = 1; i < 10; i++) {
-			int id = generarAleatorio(numCitizens);
+			int id = Util.generarAleatorio(numCitizens);
 			Citizen c = factory.getServicesFactory().getCitizenService()
 					.findById(id);
 			assertNotNull(c.getApellidos());
@@ -164,11 +163,6 @@ public class CitizenTest {
 		assertEquals(usuario, factory.getServicesFactory().getCitizenService()
 				.findLoggableUser(usuario.getDni(), usuario.getPassword()));
 		factory.getPersistenceFactory().newCitizenRepository().delete(usuario);
-	}
-
-	private int generarAleatorio(int maximo) {
-		Random random = new Random();
-		return (int) (random.nextDouble() * maximo) + 1;
 	}
 
 }

@@ -16,9 +16,9 @@ import org.springframework.web.servlet.ModelAndView;
 import es.uniovi.asw.conf.Factories;
 import es.uniovi.asw.model.Citizen;
 import es.uniovi.asw.model.Commentary;
-import es.uniovi.asw.model.EstadosComentario;
-import es.uniovi.asw.model.EstadosPropuesta;
 import es.uniovi.asw.model.Proposal;
+import es.uniovi.asw.model.types.status.EstadosComentario;
+import es.uniovi.asw.model.types.status.EstadosPropuesta;
 import es.uniovi.asw.producers.KafkaProducer;
 import es.uniovi.asw.model.ImprimeDatosComment;
 

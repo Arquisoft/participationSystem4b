@@ -19,6 +19,11 @@ public class CitizenServiceImpl implements CitizenService {
 	}
 
 	@Override
+	public int count() {
+		return (int) citizenRepository.count();
+	}
+
+	@Override
 	public Citizen findById(long id) {
 		return citizenRepository.findByID(id);
 	}
@@ -32,7 +37,7 @@ public class CitizenServiceImpl implements CitizenService {
 	public void save(Citizen citizen) {
 		citizenRepository.save(citizen);
 	}
-	
+
 	@Override
 	public Citizen findLoggableUser(String name, String password) {
 		return citizenRepository.findLoggableUser(name, password);

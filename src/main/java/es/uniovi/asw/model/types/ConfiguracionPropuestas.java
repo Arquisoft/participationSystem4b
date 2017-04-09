@@ -1,6 +1,9 @@
-package es.uniovi.asw.model;
+package es.uniovi.asw.model.types;
 
 import java.util.*;
+
+import es.uniovi.asw.model.Proposal;
+import es.uniovi.asw.model.types.status.EstadosPropuesta;
 
 public class ConfiguracionPropuestas {
 

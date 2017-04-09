@@ -1,4 +1,4 @@
-package es.uniovi.asw.model;
+package es.uniovi.asw.model.types.status;
 
 public enum EstadosPropuesta {
 	EnTramite, Aceptada, Rechazada, Anulada

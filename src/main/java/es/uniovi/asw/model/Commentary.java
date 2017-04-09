@@ -7,22 +7,21 @@ import java.util.GregorianCalendar;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
-import es.uniovi.asw.model.types.keys.ComentaryKey;
+import es.uniovi.asw.model.types.status.EstadosComentario;
 
 @Entity
-@IdClass(ComentaryKey.class)
-@Table(name = "TCOMENTARIOS")
+@Table(name = "TCOMMENTARIES")
 public class Commentary {
-
 	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	private Long id;
+
 	@ManyToOne
 	private Citizen citizen;
 
-	@Id
 	@ManyToOne
 	private Proposal proposal;
 
-	@Id
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date creationDate;
 
@@ -39,7 +38,6 @@ public class Commentary {
 	}
 
 	public Commentary(Citizen citizen, Proposal proposal, String content) {
-		//Association.Comenta.link(citizen, this, proposal);
 		Calendar calendar = GregorianCalendar.getInstance();
 		this.creationDate = new Date(calendar.getTimeInMillis());
 		this.content = content;
@@ -47,7 +45,7 @@ public class Commentary {
 		this.status = EstadosComentario.Correcto;
 		Association.Comenta.link(citizen, this, proposal);
 	}
-	
+
 	public String getContent() {
 		return content;
 	}
@@ -114,8 +112,10 @@ public class Commentary {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((citizen == null) ? 0 : citizen.hashCode());
-		result = prime * result + ((creationDate == null) ? 0 : creationDate.hashCode());
-		result = prime * result + ((proposal == null) ? 0 : proposal.hashCode());
+		result = prime * result
+				+ ((creationDate == null) ? 0 : creationDate.hashCode());
+		result = prime * result
+				+ ((proposal == null) ? 0 : proposal.hashCode());
 		return result;
 	}
 
@@ -145,8 +145,5 @@ public class Commentary {
 			return false;
 		return true;
 	}
-
-
-	
 
 }

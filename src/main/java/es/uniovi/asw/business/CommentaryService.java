@@ -10,10 +10,12 @@ public interface CommentaryService {
 	public List<Commentary> findAll();
 
 	public Commentary findById(long id);
-	
+
 	public Commentary findByCreationDate(Date date);
 
 	public Commentary findByCitizen(String dni);
+
+	void save(Commentary c);
 
 	public void save(Long idCitizen, Long idProposal, String message);
 
@@ -22,4 +24,7 @@ public interface CommentaryService {
 	public void update(Commentary comentario);
 
 	public List<Commentary> findByProposalId(Long idPropuesta);
+
+	void delete(Commentary c);
+
 }

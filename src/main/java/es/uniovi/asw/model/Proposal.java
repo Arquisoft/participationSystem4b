@@ -1,13 +1,17 @@
 package es.uniovi.asw.model;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
+import es.uniovi.asw.model.types.status.EstadosPropuesta;
+
 @Entity
-@Table(name = "TPROPUESTA")
+@Table(name = "TPROPOSAL")
 public class Proposal {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -20,7 +24,7 @@ public class Proposal {
 	private String content;
 
 	@OneToMany(mappedBy = "proposal", fetch = FetchType.EAGER)
-	private Set<Commentary> comments = new HashSet<Commentary>();
+	private List<Commentary> comments = new ArrayList<>();
 
 	@NotNull
 	private int valoration;
@@ -30,11 +34,12 @@ public class Proposal {
 
 	@Enumerated(EnumType.STRING)
 	private EstadosPropuesta status;
-	
+
 	@OneToMany(mappedBy = "proposal", fetch = FetchType.EAGER)
 	private Set<Vote> votes = new HashSet<Vote>();
 
-	public Proposal() {	}
+	public Proposal() {
+	}
 
 	public Proposal(String name, String content, int minVotes) {
 		this.name = name;
@@ -83,17 +88,9 @@ public class Proposal {
 	public void setContent(String content) {
 		this.content = content;
 	}
-	
-	public Set<Commentary> getComments() {
-		return new HashSet<Commentary>(comments);
-	}
 
-	public Set<Commentary> _getComments() {
+	public List<Commentary> getComments() {
 		return comments;
-	}
-
-	public void setComments(Set<Commentary> comments) {
-		this.comments = comments;
 	}
 
 	public int getValoration() {
@@ -131,7 +128,7 @@ public class Proposal {
 	public Set<Vote> getVotes() {
 		return new HashSet<Vote>(votes);
 	}
-	
+
 	public Set<Vote> _getVotes() {
 		return votes;
 	}
@@ -171,8 +168,5 @@ public class Proposal {
 			return false;
 		return true;
 	}
-
-
-	
 
 }
